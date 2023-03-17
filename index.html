@@ -20,16 +20,15 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>  
-
-    <div id="app" class="p-5">
-        <div class="wrapper rounded-window">
-           <div class="row">
+    <div id="app">
+        <div class="wrapper window">
+           <div class="row h-100">
 
                 <!-- Left Sidebar -->
-                <aside class="col-lg-4 debug">
+                <aside class="col-lg-4 br-gray debug">
         
                     <!-- Sidebar Toolbar -->
-                    <div class="toolbar d-flex align-center p-2 br-gray">
+                    <div class="toolbar d-flex align-center p-2">
                         <div class="col-5 d-flex h-100">
                             <div class="img-wrap">
                                 <img src="./img/user_generic.jpg" alt="" class="rounded-img">
@@ -39,9 +38,9 @@
                             </div>
                         </div>
                         <div class="col-7 text-right">
-                            <button class="btn"><i class="fa-solid fa-user"></i></button>
-                            <button class="btn"><i class="fa-solid fa-user"></i></button>
-                            <button class="btn"><i class="fa-solid fa-user"></i></button>
+                            <button class="btn"><i class="fa-solid fa-share-nodes"></i></button>
+                            <button class="btn"><i class="fa-solid fa-message"></i></button>
+                            <button class="btn"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                         </div>
                     
                     </div>
@@ -54,34 +53,88 @@
                                 </div>
                                 <div class="d-inblock my-auto ps-2">
                                     <div>Ricevi notifiche di nuovi messaggi</div>
-                                    <div class="text-small"><a href="#" class=" text-gray-text">Attiva notifiche desktop</a></div>
+                                    <div><a href="#" class="text-darkgray text-small">Attiva notifiche desktop</a></div>
                                 </div>
                            </div>
                     </div>
 
                     <!-- Searchbar -->
-                    <div class="searchbar">
-                        
+                    <div class="searchbar p-1">
+                        <div class="input-field">
+                            <i class="fa-solid fa-magnifying-glass text-gray-text"></i>
+                            <input type="text" name="" id="" class="form-input-text search-icon" placeholder="Cerca o inizia una nuova chat">
+                        </div>
                     </div>
+
+                    <!-- Chat List -->
+                    <div class="chatlist">
+                        <div class="chatlist-wrap">
+                            <ul>
+                                <li class="d-flex chat-item">
+                                        <div class="img-wrap">
+                                            <img src="./img/user_generic.jpg" alt="" class="rounded-img img-md">
+                                        </div>
+                                        <div class="d-inblock ps-3">
+                                            <div class="text-bold">Michele</div>
+                                            <div class="text-small text-darkgray">Ultimo messaggio inviato</div>
+                                        </div>
+                                        <span class="sended-at text-small text-darkgray">12:00</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
 
                 </aside>
 
                 <!-- Main Container -->
                 <main class="col-lg-8 debug">
+
                     <div class="toolbar d-flex align-center p-2">
                         <div class="col-5 d-flex h-100">
                             <div class="img-wrap">
                                 <img src="./img/user_generic.jpg" alt="" class="rounded-img">
                             </div>
-                            <div class="d-inblock my-auto ps-2">
+                            <div class="d-inblock my-auto ps-3">
                                 <div class="text-bold">Michele</div>
-                                <div class="text-small">Ultimo accesso oggi alle 12:00</div>
+                                <div class="text-small text-darkgray">Ultimo accesso oggi alle 12:00</div>
                             </div>
                         </div>
                         <div class="col-7 text-right">
-                            <button class="btn"><i class="fa-solid fa-user"></i></button>
-                            <button class="btn"><i class="fa-solid fa-user"></i></button>
-                            <button class="btn"><i class="fa-solid fa-user"></i></button>
+                            <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <button class="btn"><i class="fa-solid fa-paperclip"></i></button>
+                            <button class="btn"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="messages p-5">
+
+                       <ul>
+                            <li class="msg received">
+                                <div class="content">
+                                    Risposta
+                                </div>
+                            </li>
+                            <li class="msg sended">
+                                <div class="content">
+                                    Mio messaggio
+                                </div>
+                            </li>
+                       </ul>
+
+                    </div>
+
+                    <div class="bottom-bar d-flex justify-between p-3">
+                        <div class="col-1">
+                            <button class="btn my-auto"><i class="fa-regular fa-face-smile"></i></button>
+                        </div>
+                        <div class="col-10">
+                            <div class="input-field h-100">
+                                <input type="text" name="" id="" class="form-input-text h-100 ps-0" placeholder="Scrivi un messaggio">
+                            </div>
+                        </div>
+                        <div class="col-1 text-right">
+                            <button class="btn my-auto"><i class="fa-solid fa-microphone"></i></button>
                         </div>
                     </div>
                 </main>
