@@ -11,6 +11,7 @@
 :root{
     --color-green: #009688;
     --color-lightgreen: #d5f9ba;
+    --color-lightgreen-contrast: #c1ddad;
     --color-gray-1: #dcdbd2;
     --color-gray-2: #eaeaea;
     --color-gray-3: #f3eeea;
@@ -18,6 +19,7 @@
     --color-gray-text: #b1b1b1;
     --color-darkgray: #858484;
     --color-azure: #8edafc;
+    --color-bodyBg: #dadbd3;
 
 }
 *:not(i), 
@@ -26,6 +28,9 @@ html:not(i){
     font-size: .95rem;
 }
 
+body{
+    background-color: var(--color-bodyBg);
+}
 
 /* Colors */
 
@@ -49,7 +54,7 @@ html:not(i){
     overflow: hidden; 
     box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.09);
     height: 90vh;
-    border: 1px solid var(--color-gray-1);
+    border: 1px solid var(--color-gray-text);
     margin: auto;
     margin-top: 5vh;
 }
@@ -168,7 +173,7 @@ html:not(i){
 /* Controls */
 
 .btn{
-    border-radius: 13px;
+    border-radius: 50%;
     border: none;
     height: 35px;
     width: 35px;
@@ -178,12 +183,12 @@ html:not(i){
 }
 
 .btn i{
-    font-size: 1.3rem;
+    font-size: 1.8rem;
 }
 
 .btn:hover{
     cursor: pointer;
-    background-color: var(--color-gray-1);
+    background-color: var(--color-gray-4);
 }
 
 /* Form */
@@ -191,8 +196,13 @@ input[type="text"].form-input-text{
     border-radius: 5px;
     border: transparent;
     width: 100%;
-    padding: 5px 10px;
+    padding: 7px 10px;
 }
+
+input[type="text"].form-input-text:focus{
+    outline: none;
+}
+
 
 input[type="text"].form-input-text.search-icon{
     padding-left: 40px;
@@ -204,6 +214,8 @@ input[type="text"].form-input-text.search-icon{
     border-radius: 5px;
 }
 
+
+
 .input-field i{
     position: absolute;
     left: 15px;
@@ -211,8 +223,14 @@ input[type="text"].form-input-text.search-icon{
     transform: translateY(-50%);
 }
 
+/* ScrollBar */
 
-
+::-webkit-scrollbar {width: 9px;}
+::-webkit-scrollbar-track {background: #f1f1f1;}
+::-webkit-scrollbar-thumb {
+    background: #cacaca; border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {background: #999999;}
 
 /* ---PAGE CUSTOM--- */
 
@@ -261,6 +279,7 @@ input[type="text"].form-input-text.search-icon{
 
 .notification i{
     color: var(--color-azure);
+    font-size: 2rem;
 }
 
 /* Search Bar */
@@ -291,6 +310,7 @@ input[type="text"].form-input-text.search-icon{
 }
 
 .chatlist .chat-item:hover{
+    cursor: pointer;
     background-color: var(--color-gray-2);
 }
 
@@ -307,6 +327,7 @@ input[type="text"].form-input-text.search-icon{
 .messages{
     background-image: url(../img/mine.jpg);
     height: calc(100% - 120px);
+    overflow-y: scroll;
 }
 
 .messages ul{
@@ -318,19 +339,37 @@ input[type="text"].form-input-text.search-icon{
     background-color: white;
 }
 
-.msg.sended{
+.msg.sent{
     text-align: right;
 }
 
-.msg.sended .content{
-    background-color: white;
+.msg.sent .content{
+    background-color: var(--color-lightgreen);
+    border: 1px solid var(--color-lightgreen-contrast);
 }
 
 .msg .content{
-    padding: 5px;
+    position: relative;
+    display: inline-block;
+    text-align: left;
+    padding: 10px;
+    padding-bottom: 30px;
+    min-height: 60px;
+    min-width: 200px;
+    max-width: 600px;
+    word-wrap: break-word;
     border-radius: 15px;
     background-color: red;
-    display: inline-block;
+}
+
+.msg .content .timestamp{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.msg .content:hover{
+    cursor: pointer;
 }
 
 .bottom-bar{
