@@ -6,12 +6,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="./css/master.css">
 
     <title>BoolzApp Web</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
-<body>
-    
+<body>  
+
+    <div id="app" class="p-5">
+        <div class="wrapper rounded-window">
+           <div class="row">
+
+                <!-- Left Sidebar -->
+                <aside class="col-lg-4 debug">
+        
+                    <!-- Sidebar Toolbar -->
+                    <div class="toolbar d-flex align-center p-2 br-gray">
+                        <div class="col-5 d-flex h-100">
+                            <div class="img-wrap">
+                                <img src="./img/user_generic.jpg" alt="" class="rounded-img">
+                            </div>
+                            <div class="d-inblock my-auto ps-2">
+                                <div class="text-bold">Sofia</div>
+                            </div>
+                        </div>
+                        <div class="col-7 text-right">
+                            <button class="btn"><i class="fa-solid fa-user"></i></button>
+                            <button class="btn"><i class="fa-solid fa-user"></i></button>
+                            <button class="btn"><i class="fa-solid fa-user"></i></button>
+                        </div>
+                    
+                    </div>
+
+                    <!-- Notifications Badge -->
+                    <div class="notification p-3">
+                           <div class="d-flex h-100">
+                                <div class="img-wrap rounded-icon my-auto">
+                                    <i class="fa-solid fa-bell-slash"></i>
+                                </div>
+                                <div class="d-inblock my-auto ps-2">
+                                    <div>Ricevi notifiche di nuovi messaggi</div>
+                                    <div class="text-small"><a href="#" class=" text-gray-text">Attiva notifiche desktop</a></div>
+                                </div>
+                           </div>
+                    </div>
+
+                    <!-- Searchbar -->
+                    <div class="searchbar">
+                        
+                    </div>
+
+                </aside>
+
+                <!-- Main Container -->
+                <main class="col-lg-8 debug">
+                    <div class="toolbar d-flex align-center p-2">
+                        <div class="col-5 d-flex h-100">
+                            <div class="img-wrap">
+                                <img src="./img/user_generic.jpg" alt="" class="rounded-img">
+                            </div>
+                            <div class="d-inblock my-auto ps-2">
+                                <div class="text-bold">Michele</div>
+                                <div class="text-small">Ultimo accesso oggi alle 12:00</div>
+                            </div>
+                        </div>
+                        <div class="col-7 text-right">
+                            <button class="btn"><i class="fa-solid fa-user"></i></button>
+                            <button class="btn"><i class="fa-solid fa-user"></i></button>
+                            <button class="btn"><i class="fa-solid fa-user"></i></button>
+                        </div>
+                    </div>
+                </main>
+           </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="./js/main.js"></script>
 </body>
 </html>
