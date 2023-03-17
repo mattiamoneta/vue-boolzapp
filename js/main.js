@@ -4,6 +4,7 @@ createApp({
   data() {
     return{
       activePerson : 0,
+      sentMsg : "",
       activePersonMsg : [],
       contacts: [
         {
@@ -171,14 +172,25 @@ createApp({
     }
   },
   methods: {
-    showConversation(index){
+    currentConversation(index){
+      this.activePersonMsg = null;
       this.activePerson = index;
       this.activePersonMsg = this.contacts[index].messages;
     },
-
+    sendNewMsg(){
+      this.contacts[this.activePerson].messages.push(
+        {
+          date: '10/01/2020 15:30:55',
+          message: this.sentMsg,
+          status: 'sent'
+        }
+      );
+      this.currentConversation(this.activePerson);
+      this.sentMsg = "";
+    }
   },
   
   mounted(){
-    showConversation(this.activePerson);
+    this.currentConversation(this.activePerson);
   }
 }).mount('#app')

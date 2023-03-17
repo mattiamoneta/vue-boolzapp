@@ -75,7 +75,7 @@
                     <div class="chatlist">
                         <div class="chatlist-wrap">
                             <ul>
-                                <li v-for="(person, index) in contacts" class="d-flex chat-item" @click="showConversation(index)">
+                                <li v-for="(person, index) in contacts" class="d-flex chat-item" @click="currentConversation(index)">
                                         <div class="img-wrap">
                                             <img :src="person.avatar" alt="" class="rounded-img img-md">
                                         </div>
@@ -98,10 +98,10 @@
                     <div class="toolbar d-flex align-center p-2">
                         <div class="col-5 d-flex h-100">
                             <div class="img-wrap">
-                                <img src="./img/user_generic.jpg" alt="" class="rounded-img">
+                                <img :src="contacts[activePerson].avatar" alt="" class="rounded-img">
                             </div>
                             <div class="d-inblock my-auto ps-3">
-                                <div class="text-bold">Michele</div>
+                                <div class="text-bold">{{contacts[activePerson].name}}</div>
                                 <div class="text-small text-darkgray">Ultimo accesso oggi alle 12:00</div>
                             </div>
                         </div>
@@ -127,11 +127,11 @@
 
                     <div class="bottom-bar d-flex justify-between p-3">
                         <div class="col-1">
-                            <button class="btn my-auto"><i class="ion-ios-paperplane-outline"></i></button>
+                            <button class="btn my-auto"><i class="ion-ios-paperplane-outline" @click="sendNewMsg"></i></button>
                         </div>
                         <div class="col-10">
                             <div class="input-field h-100">
-                                <input type="text" name="" id="" class="form-input-text h-100 ps-0" placeholder="Scrivi un messaggio">
+                                <input type="text" name="txtInputMsg" id="txtInputMsg" class="form-input-text h-100 ps-0" v-model="sentMsg"  @keyup.enter="sendNewMsg"  placeholder="Scrivi un messaggio">
                             </div>
                         </div>
                         <div class="col-1 text-right">

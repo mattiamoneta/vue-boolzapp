@@ -359,7 +359,6 @@ input[type="text"].form-input-text.search-icon{
     max-width: 600px;
     word-wrap: break-word;
     border-radius: 15px;
-    background-color: red;
 }
 
 .msg .content .timestamp{
