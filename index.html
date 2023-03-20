@@ -24,13 +24,13 @@
     <title>BoolzApp Web</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
-<body>  
+<body> 
+    <header></header> 
     <div id="app">
         <div class="wrapper window">
            <div class="row h-100">
-
                 <!-- Left Sidebar -->
-                <aside class="col-lg-4 br-gray debug">
+                <aside class="col-4 br-gray bg-white">
         
                     <!-- Sidebar Toolbar -->
                     <div class="toolbar d-flex align-center p-2">
@@ -43,22 +43,32 @@
                             </div>
                         </div>
                         <div class="col-7 text-right">
-                            <button class="btn"><i class="ion-ios-personadd-outline"></i></button>
-                            <button class="btn"><i class="ion-ios-paperplane-outline"></i></button>
-                            <button class="btn"><i class="ion-android-more-vertical"></i></button>
+
+
+                            <button class="btn btn-dark" ><i class="ion-ios-paperplane-outline"></i></button>
+                                                            
+                            <div class="dropdown">
+                                <button class="btn btn-dark" @click="handleDropdown('drop-more')"><i class="ion-android-more-vertical"></i></button>
+                                <ul class="dropdown-menu right" ref="drop-more" @mouseleave="disposeDropdown()">
+                                    <li><a href="#">Nuovo gruppo</a></li>
+                                    <li><a href="#">Messaggi Importanti</a></li>
+                                    <li><a href="#">Impostazioni</a></li>
+                                    <li><a href="#">Disconnetti</a></li>
+                                </ul>
+                            </div>
                         </div>
                     
                     </div>
 
                     <!-- Notifications Badge -->
-                    <div class="notification p-3">
+                    <div class="notification p-3" v-show="notifyBanner">
                            <div class="d-flex h-100">
                                 <div class="img-wrap rounded-icon my-auto">
                                     <i class="ion-android-notifications-off"></i>
                                 </div>
                                 <div class="d-inblock my-auto ps-2">
                                     <div>Ricevi notifiche di nuovi messaggi</div>
-                                    <div><a href="#" class="text-darkgray text-small">Attiva notifiche desktop</a></div>
+                                    <div><a href="#" class="text-small link" @click="requestNotifications">Attiva notifiche desktop &gt;</a></div>
                                 </div>
                            </div>
                     </div>
@@ -67,7 +77,7 @@
                     <div class="searchbar p-1">
                         <div class="input-field">
                             <i class="ion-search text-gray-text"></i>
-                            <input type="text" name="" id="" class="form-input-text search-icon" placeholder="Cerca o inizia una nuova chat">
+                            <input type="text" name="" id="" @keyup="realtimeSearch" v-model="searchQuery" class="form-input-text search-icon" placeholder="Cerca o inizia una nuova chat">
                         </div>
                     </div>
 
@@ -75,16 +85,30 @@
                     <div class="chatlist">
                         <div class="chatlist-wrap">
                             <ul>
-                                <li v-for="(person, index) in contacts" class="d-flex chat-item" @click="currentConversation(index)">
+      
+                                <li v-if="searchQuery != ''" v-for="(filters, index) in foundMatch" class="d-flex chat-item" @click="currentConversation(index)">
+                                    <div class="img-wrap">
+                                        <img :src="filters.avatar" alt="" class="rounded-img img-md">
+                                    </div>
+                                    <div class="d-inblock ps-3">
+                                        <div class="text-bold">{{filters.name}}</div>
+                                        <div class="text-small text-darkgray text-overflow">{{filters.messages[filters.messages.length - 1].message}}</div>
+                                    </div>
+                                    <span class="sended-at text-small text-darkgray">12:00</span>
+                                </li>  
+                                <li v-else v-for="(person, index) in contacts" class="d-flex chat-item" @click="currentConversation(index)">
                                         <div class="img-wrap">
                                             <img :src="person.avatar" alt="" class="rounded-img img-md">
                                         </div>
                                         <div class="d-inblock ps-3">
                                             <div class="text-bold">{{person.name}}</div>
-                                            <div class="text-small text-darkgray">Ultimo messaggio inviato</div>
+                                            <div v-if="whoIsWriting == person.name" class="text-small text-darkgray text-overflow">Sta scrivendo...</div>
+                                            <div v-else class="text-small text-darkgray text-overflow">{{person.messages[person.messages.length - 1].message}}</div>
                                         </div>
                                         <span class="sended-at text-small text-darkgray">12:00</span>
-                                </li>              
+                                </li>      
+                                
+                                
                             </ul>
                         </div>
                     </div>
@@ -93,7 +117,7 @@
                 </aside>
 
                 <!-- Main Container -->
-                <main class="col-lg-8 debug">
+                <main class="col-8 debug">
 
                     <div class="toolbar d-flex align-center p-2">
                         <div class="col-5 d-flex h-100">
@@ -106,9 +130,18 @@
                             </div>
                         </div>
                         <div class="col-7 text-right">
-                            <button class="btn"><i class="ion-ios-search-strong"></i></button>
-                            <button class="btn"><i class="ion-paperclip"></i></button>
-                            <button class="btn"><i class="ion-android-more-vertical"></i></button>
+
+                            <button class="btn btn-dark" @click="handleDropdown('drop-add')"><i class="ion-ios-gear-outline"></i></button>
+                            
+                            <div class="toolbar-separator"></div>
+                            <div class="dropdown">
+                                <button class="btn btn-dark" @click="handleDropdown('drop-more-2')"><i class="ion-android-more-vertical"></i></button>
+                                <ul class="dropdown-menu right" ref="drop-more-2" @mouseleave="disposeDropdown()">
+                                    <li><a href="#">Link 1</a></li>
+                                    <li><a href="#">Link 1</a></li>
+                                    <li><a href="#">Link 1</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
@@ -118,7 +151,8 @@
                             <li v-for="msg in activePersonMsg" class="msg py-2" :class="msg.status">
                                 <div class="content">
                                     {{msg.message}}
-                                    <span class="timestamp text-small text-darkgray">{{msg.date}}</span>
+                                    <button class="btn-drop"><i class="ion-chevron-down text-darkgray"></i></button>
+                                    <span class="timestamp text-small text-darkgray">{{msg.date}} <i class="msg-icon ion-checkmark-round" :class="msg.read"></i></span>
                                 </div>
                             </li>
                        </ul>
@@ -127,7 +161,7 @@
 
                     <div class="bottom-bar d-flex justify-between p-3">
                         <div class="col-1">
-                            <button class="btn my-auto"><i class="ion-ios-paperplane-outline" @click="sendNewMsg"></i></button>
+                            <button class="btn my-auto"><i class="ion-paper-airplane" @click="sendNewMsg"></i></button>
                         </div>
                         <div class="col-10">
                             <div class="input-field h-100">
@@ -135,7 +169,23 @@
                             </div>
                         </div>
                         <div class="col-1 text-right">
-                            <button class="btn my-auto"><i class="ion-ios-mic"></i></button>
+                            <button class="btn btn-red my-auto" @click="voiceRecord"><i class="ion-android-microphone"></i></button>
+                        </div>
+                    </div>
+
+                    <div v-show="isWriting" class="is-writing">
+                        {{contacts[activePerson].name}} sta scrivendo 
+                        <span class="anim-dot dot-1"></span>
+                        <span class="anim-dot dot-2"></span>
+                        <span class="anim-dot dot-3"></span>
+                    </div>
+
+                    <div v-show="isSpeaking" class="voice-recorder-badge text-center">
+                        <div><i class="ion-android-microphone"></i></div>
+                        <div>
+                            <span class="anim-dot dot-big dot-1"></span>
+                            <span class="anim-dot dot-big dot-2"></span>
+                            <span class="anim-dot dot-big dot-3"></span>
                         </div>
                     </div>
                 </main>
@@ -143,6 +193,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.3.0/build/global/luxon.min.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="./js/main.js"></script>
 </body>
