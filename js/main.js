@@ -8,6 +8,8 @@ createApp({
       showDrop2 : false,
       showDropdown : false,
       indexShowDropdown : null,
+      showChatDropdown: false,
+      indexChatDropdown : null,
       activePerson : 0,
       speech : window.SpeechRecognition,
       badgeMsg : "In ascolto",
@@ -381,6 +383,18 @@ createApp({
         }
     },
 
+    handleDropChat(index){
+      if (this.showChatDropdown && this.indexChatDropdown == index){
+        this.showChatDropdown = false;
+        this.indexChatDropdown = null;
+      } else if(this.showDropdown && this.indexChatDropdown != index){
+        this.indexChatDropdown = index;
+      } else {
+        this.showChatDropdown = true;
+        this.indexChatDropdown = index;
+      }
+  },
+
     handleDrop1(){
      if (this.showDrop1 == false){
       this.showDrop1 = true;
@@ -399,6 +413,24 @@ createApp({
        this.showDrop2 = false;
        this.showDrop1 = false;
       }
+     },
+
+     removeMsg(index){
+      const messages = this.contacts[this.activePerson].messages
+      messages.splice(index, 1);
+      this.showDropdown = false;
+      this.indexShowDropdown = null;
+     },
+     
+     deleteChat(name){
+      this.contacts = this.contacts.filter((e)=>{
+          if (e.name != name){
+            return true
+          }
+      })
+     
+      this.showChatDropdown = false;
+      this.indexChatDropdown = null;
      }
   
   },
