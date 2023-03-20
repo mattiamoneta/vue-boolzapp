@@ -102,11 +102,17 @@
                                         </div>
                                         <div class="d-inblock ps-3">
                                             <div class="text-bold">{{person.name}}</div>
-                                            <div v-if="whoIsWriting == person.name" class="text-small text-darkgray text-overflow">Sta scrivendo...</div>
-                                            <div v-else class="text-small text-darkgray text-overflow">{{person.messages[person.messages.length - 1].message}}</div>
+                                        
+                                            <div v-if="person.isWriting" class="text-small text-overflow">{{person.currentAction}}</div>
+                                            <div v-else class="text-small text-overflow">{{person.messages[person.messages.length - 1].message}}</div>
+                                            
+                                            <div v-if="!person.online" class="user-lastaccess text-darkgray text-xsmall mt-1">Ultimo accesso {{person.lastAccess}}</div>
+
                                         </div>
-                                        <span class="sended-at text-small text-darkgray">{{person.messages[person.messages.length - 1].date}}</span>
-                                </li>      
+
+                                        <span v-if="person.online" class="user-online text-small text-darkgray">Online</span>
+                                   
+                                    </li>      
                                 
                                 
                             </ul>
@@ -173,7 +179,7 @@
                         </div>
                     </div>
 
-                    <div v-show="isWriting" class="is-writing">
+                    <div v-show="contacts[activePerson].isWriting" class="is-writing">
                         {{contacts[activePerson].name}} sta scrivendo 
                         <span class="anim-dot dot-1"></span>
                         <span class="anim-dot dot-2"></span>

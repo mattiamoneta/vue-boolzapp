@@ -5,7 +5,6 @@ createApp({
   data() {
     return{
       activePerson : 0,
-      now : null,
       speech : window.SpeechRecognition,
       badgeMsg : "In ascolto",
       searchQuery : "",
@@ -14,8 +13,6 @@ createApp({
       notifyBanner : true,
       lastDropRef : "",
       activePersonMsg : [],
-      isWriting : false,
-      whoIsWriting : "",
       isSpeaking : false,
       fakeMsgs : [
         'Hey ciao!',
@@ -28,6 +25,10 @@ createApp({
           name: 'Michele',
           avatar: './img/avatar_1.jpg',
           visible: true,
+          currentAction: "",
+          lastAccess : "16:15",
+          online: false,
+          isWriting: false,
           messages: [
                         {
                         date: '15:30',
@@ -53,6 +54,10 @@ createApp({
           name: 'Fabio',
           avatar: "./img/avatar_2.jpg",
           visible: true,
+          currentAction: "",
+          lastAccess : "16:35",
+          online: false,
+          isWriting: false,
           messages: [
                         {
                         date: '16:30',
@@ -78,6 +83,10 @@ createApp({
           name: 'Samuele',
           avatar: './img/avatar_3.jpg',
           visible: true,
+          currentAction: "",
+          lastAccess : "16:15",
+          online: false,
+          isWriting: false,
           messages: [
                       {
                       date: '10:10',
@@ -103,6 +112,10 @@ createApp({
           name: 'Alessandro B.',
           avatar: './img/avatar_4.jpg',
           visible: true,
+          currentAction: "",
+          lastAccess : "15:50",
+          online: false,
+          isWriting: false,
           messages: [
                       {
                       date: '15:30',
@@ -122,6 +135,10 @@ createApp({
           name: 'Alessandro L.',
           avatar: './img/avatar_5.jpg',
           visible: true,
+          currentAction: "",
+          lastAccess : "15:50",
+          online: false,
+          isWriting: false,
           messages: [
                       {
                       date: '15:30',
@@ -141,6 +158,10 @@ createApp({
           name: 'Claudia',
           avatar: './img/avatar_5.jpg',
           visible: true,
+          currentAction: "",
+          lastAccess : "15:51",
+          online: false,
+          isWriting: false,
           messages: [
                       {
                       date: '15:30',
@@ -166,6 +187,10 @@ createApp({
           name: 'Federico',
           avatar: './img/avatar_7.jpg',
           visible: true,
+          currentAction: "",
+          lastAccess : "15:50",
+          online: false,
+          isWriting: false,
           messages: [
                       {
                       date: '15:30',
@@ -185,6 +210,10 @@ createApp({
           name: 'Davide',
           avatar: './img/avatar_8.jpg',
           visible: true,
+          currentAction: "",
+          lastAccess : "15:51",
+          online: false,
+          isWriting: false,
           messages: [
                       {
                       date: '15:30',
@@ -218,46 +247,12 @@ createApp({
       this.activePersonMsg = this.contacts[index].messages;
     },
 
-    // Finto messaggio "sta scrivendo"
-    fakeWriting(){
-      const clock = setTimeout(() => {
-        this.isWriting = true;
-        this.whoIsWriting = this.contacts[this.activePerson].name;
-        this.fakeResponse();
-      },3000);
-    },
-
-    // Finta risposta alla chat
-    fakeResponse(){
-
-      const clock = setTimeout(() => {
-
-        this.updateTime();
-
-        this.contacts[this.activePerson].messages[this.contacts[this.activePerson].messages.length - 1].read = "read";
-
-        this.contacts[this.activePerson].messages.push(
-          {
-            date: this.now,
-            message: this.randomMsg(),
-            status: 'received',
-            read : "read"
-          }
-        );
-        
-        this.isWriting = false;
-        this.whoIsWriting = "";
-
-      },4000);
-    },
-
     // Invia messaggio
     sendNewMsg(){
       if (this.sentMsg != ""){
-        this.updateTime();
         this.contacts[this.activePerson].messages.push(
           {
-            date: this.now,
+            date: this.getTime(),
             message: this.sentMsg,
             status: 'sent',
             read: ""
@@ -268,6 +263,56 @@ createApp({
 
         this.fakeWriting();
       }
+    },
+
+    // Finto messaggio "sta scrivendo"
+    fakeWriting(){
+      
+      const clock = setTimeout(() => {
+        this.contacts[this.activePerson].online = true;
+        this.contacts[this.activePerson].isWriting = true;
+        this.contacts[this.activePerson].currentAction = "Sta scrivendo...";
+        this.fakeResponse();
+
+      },3000);
+    },
+
+    // Finta risposta alla chat
+    fakeResponse(){
+
+      const clock = setTimeout(() => {
+
+        //Segna msg come letto
+        this.contacts[this.activePerson].messages[this.contacts[this.activePerson].messages.length - 1].read = "read";
+
+        // Aggiunge messaggio
+        this.contacts[this.activePerson].messages.push(
+          {
+            date: this.getTime(),
+            message: this.randomMsg(),
+            status: 'received',
+            read : "read"
+          }
+        );
+        
+        //Toggle del badge "sta scrivendo"
+        this.contacts[this.activePerson].isWriting = false;
+      
+        this.fakeUserStatus();
+
+      },4000);
+    },
+
+    fakeUserStatus(){
+
+        const clock = setTimeout(() =>{
+            
+          this.contacts[this.activePerson].online = false;
+          this.contacts[this.activePerson].lastAccess = this.getTime();
+
+        }, 5000);
+
+        
     },
 
     // Apertura dropdown via REF
@@ -334,8 +379,8 @@ createApp({
 
     },
 
-    updateTime(){
-      this.now = DateTime.now().setLocale('it').toLocaleString(DateTime.TIME_24_SIMPLE);
+    getTime(){
+      return DateTime.now().setLocale('it').toLocaleString(DateTime.TIME_24_SIMPLE);
     }
   
   },
