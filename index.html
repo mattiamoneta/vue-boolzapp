@@ -48,8 +48,8 @@
                             <button class="btn btn-dark" ><i class="ion-ios-paperplane-outline"></i></button>           
                             
                             <div class="d-inblock relative">
-                                <button class="btn btn-dark"><i class="ion-android-more-vertical"></i></button>
-                                <ul class="dropdown-menu right">
+                                <button class="btn btn-dark" @click="handleDrop1()"><i class="ion-android-more-vertical"></i></button>
+                                <ul v-if="showDrop1" class="dropdown-menu right">
                                     <li><a href="#">Nuovo gruppo</a></li>
                                     <li><a href="#">Messaggi Importanti</a></li>
                                     <li><a href="#">Impostazioni</a></li>
@@ -146,8 +146,8 @@
                             
                             <div class="toolbar-separator"></div>
                                 <div class="d-inblock relative">
-                                    <button class="btn btn-dark"><i class="ion-android-more-vertical"></i></button>
-                                    <ul class="dropdown-menu right">
+                                    <button class="btn btn-dark" @click="handleDrop2()"><i class="ion-android-more-vertical"></i></button>
+                                    <ul v-if="showDrop2" class="dropdown-menu right">
                                         <li><a href="#">Link 1</a></li>
                                         <li><a href="#">Link 1</a></li>
                                         <li><a href="#">Link 1</a></li>
@@ -159,11 +159,11 @@
                     <div class="messages p-5">
 
                        <ul>
-                            <li v-for="msg in activePersonMsg" class="msg py-2" :class="msg.status">
+                            <li v-for="(msg, index) in activePersonMsg" class="msg py-2" :class="msg.status">
                                 <div class="content">
                                     {{msg.message}}
-                                        <button class="btn-drop"><i class="ion-chevron-down text-darkgray"></i></button>
-                                        <ul class="dropdown-menu right" >
+                                        <button class="btn-drop" @click="handleDropMsg(index)"><i class="ion-chevron-down text-darkgray"></i></button>
+                                        <ul v-show="showDropdown && indexShowDropdown == index" class="dropdown-menu right" >
                                             <li><a href="#">Link 1</a></li>
                                             <li><a href="#">Link 1</a></li>
                                             <li><a href="#">Link 1</a></li>
@@ -190,14 +190,14 @@
                         </div>
                     </div>
 
-                    <div v-if="contacts[activePerson].isWriting" class="is-writing">
+                    <div v-show="contacts[activePerson].isWriting" class="is-writing">
                         {{contacts[activePerson].name}} sta scrivendo 
                         <span class="anim-dot dot-1"></span>
                         <span class="anim-dot dot-2"></span>
                         <span class="anim-dot dot-3"></span>
                     </div>
 
-                    <div v-if="isSpeaking" class="voice-recorder-badge text-center">
+                    <div v-show="isSpeaking" class="voice-recorder-badge text-center">
                         <div><i class="ion-android-microphone"></i></div>
                         <div class="py-2 text-small">{{ badgeMsg }}</div>
                         <div>

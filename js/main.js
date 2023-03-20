@@ -4,6 +4,10 @@ const DateTime = luxon.DateTime;
 createApp({
   data() {
     return{
+      showDrop1 : false,
+      showDrop2 : false,
+      showDropdown : false,
+      indexShowDropdown : null,
       activePerson : 0,
       speech : window.SpeechRecognition,
       badgeMsg : "In ascolto",
@@ -316,34 +320,6 @@ createApp({
         
     },
 
-    toggleDropdown(){
-        if(this.dropdown == "show"){
-          this.dropdown = "";
-        } else {
-          this.dropdown = "show";
-        }
-    },
-
-    // Apertura dropdown via REF
-    handleDropdown(selector){
-      
-      if((this.lastDropRef != selector) && (this.lastDropRef != "")){
-        this.$refs[this.lastDropRef].classList.remove('show');
-      }
-
-      console.log(this.$refs[selector]);
-      this.$refs[selector].classList.toggle('show');
-
-      this.lastDropRef = selector;
-    },
-
-    // Chiusura dropdown all'uscita del mouse
-    disposeDropdown(){
-      const clock = setTimeout(() => {
-      this.$refs[this.lastDropRef].classList.remove('show');
-    }, 300);
-    },
-
     // Finto accesso notifiche
     requestNotifications(){
       Notification.requestPermission()
@@ -391,14 +367,45 @@ createApp({
 
     getTime(){
       return DateTime.now().setLocale('it').toLocaleString(DateTime.TIME_24_SIMPLE);
-    }
+    },
+
+    handleDropMsg(index){
+        if (this.showDropdown && this.indexShowDropdown == index){
+          this.showDropdown = false;
+          this.indexShowDropdown = null;
+        } else if(this.showDropdown && this.indexShowDropdown != index){
+          this.indexShowDropdown = index;
+        } else {
+          this.showDropdown = true;
+          this.indexShowDropdown = index;
+        }
+    },
+
+    handleDrop1(){
+     if (this.showDrop1 == false){
+      this.showDrop1 = true;
+      this.showDrop2 = false;
+     } else {
+      this.showDrop1 = false;
+      this.showDrop2 = false;
+     }
+    },
+
+    handleDrop2(){
+      if (this.showDrop2 == false){
+       this.showDrop2 = true;
+       this.showDrop1 = false;
+      } else {
+       this.showDrop2 = false;
+       this.showDrop1 = false;
+      }
+     }
   
   },
   
   mounted(){
     // Imposta la conversazione attuale
     this.currentConversation(this.activePerson);
-    this.updateTime();
 
   }
 }).mount('#app')

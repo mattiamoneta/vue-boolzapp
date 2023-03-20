@@ -579,12 +579,7 @@ header{
 }
 
 
-button:hover + .dropdown-menu{
-    display: inline-block;
-}
-
 .dropdown-menu{
-    display: none;
     position: absolute;
     left: 0;
     top: 35px;
