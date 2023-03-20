@@ -7,6 +7,7 @@ createApp({
       activePerson : 0,
       speech : window.SpeechRecognition,
       badgeMsg : "In ascolto",
+      dropdown : "",
       searchQuery : "",
       foundMatch : [],
       sentMsg : "",
@@ -315,6 +316,14 @@ createApp({
         
     },
 
+    toggleDropdown(){
+        if(this.dropdown == "show"){
+          this.dropdown = "";
+        } else {
+          this.dropdown = "show";
+        }
+    },
+
     // Apertura dropdown via REF
     handleDropdown(selector){
       
@@ -360,7 +369,8 @@ createApp({
           }
       
       speech.onerror = (e) => {
-            this.badgeMsg = "Non ho capito. Riprova."
+            this.badgeMsg = "Non ho capito. Riprova.";
+            const clock = setTimeout(() => {this.isSpeaking = false;}, 1000);
       }
     },
 
