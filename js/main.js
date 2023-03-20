@@ -5,8 +5,9 @@ createApp({
   data() {
     return{
       activePerson : 0,
-      now : DateTime.now().setLocale('it').toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS),
+      now : null,
       speech : window.SpeechRecognition,
+      badgeMsg : "In ascolto",
       searchQuery : "",
       foundMatch : [],
       sentMsg : "",
@@ -29,19 +30,19 @@ createApp({
           visible: true,
           messages: [
                         {
-                        date: '10/01/2020 15:30:55',
+                        date: '15:30',
                         message: 'Hai portato a spasso il cane?',
                         status: 'sent',
                         read : "read"
                         },
                         {
-                        date: '10/01/2020 15:50:00',
+                        date: '15:50',
                         message: 'Ricordati di stendere i panni',
                         status: 'sent',
                         read : "read"
                         },
                         {
-                        date: '10/01/2020 16:15:22',
+                        date: '16:15',
                         message: 'Tutto fatto!',
                         status: 'received',
                         read : "read"
@@ -54,19 +55,19 @@ createApp({
           visible: true,
           messages: [
                         {
-                        date: '20/03/2020 16:30:00',
+                        date: '16:30',
                         message: 'Ciao come stai?',
                         status: 'sent',
                         read : "read"
                         },
                         {
-                        date: '20/03/2020 16:30:55',
+                        date: '16:30',
                         message: 'Bene grazie! Stasera ci vediamo?',
                         status: 'received',
                         read : "read"
                         },
                         {
-                        date: '20/03/2020 16:35:00',
+                        date: '16:35',
                         message: 'Mi piacerebbe ma devo andare a fare la spesa.',
                         status: 'sent',
                         read : "read"
@@ -79,19 +80,19 @@ createApp({
           visible: true,
           messages: [
                       {
-                      date: '28/03/2020 10:10:40',
+                      date: '10:10',
                       message: 'La Marianna va in campagna',
                       status: 'received',
                       read : "read"
                       },
                       {
-                      date: '28/03/2020 10:20:10',
+                      date: '10:20',
                       message: 'Sicuro di non aver sbagliato chat?',
                       status: 'sent',
                       read : "read"
                       },
                       {
-                      date: '28/03/2020 16:15:22',
+                      date: '16:15',
                       message: 'Ah scusa!',
                       status: 'received',
                       read : "read"
@@ -104,13 +105,13 @@ createApp({
           visible: true,
           messages: [
                       {
-                      date: '10/01/2020 15:30:55',
+                      date: '15:30',
                       message: 'Lo sai che ha aperto una nuova pizzeria?',
                       status: 'sent',
                       read : "read"
                       },
                       {
-                      date: '10/01/2020 15:50:00',
+                      date: '15:50',
                       message: 'Si, ma preferirei andare al cinema',
                       status: 'received',
                       read : "read"
@@ -123,13 +124,13 @@ createApp({
           visible: true,
           messages: [
                       {
-                      date: '10/01/2020 15:30:55',
+                      date: '15:30',
                       message: 'Ricordati di chiamare la nonna',
                       status: 'sent',
                       read : "read"
                       },
                       {
-                      date: '10/01/2020 15:50:00',
+                      date: '15:50',
                       message: 'Va bene, stasera la sento',
                       status: 'received',
                       read : "read"
@@ -142,19 +143,19 @@ createApp({
           visible: true,
           messages: [
                       {
-                      date: '10/01/2020 15:30:55',
+                      date: '15:30',
                       message: 'Ciao Claudia, hai novità?',
                       status: 'sent',
                       read : "read"
                       },
                       {
-                      date: '10/01/2020 15:50:00',
+                      date: '15:50',
                       message: 'Non ancora',
                       status: 'received',
                       read : "read"
                       },
                       {
-                      date: '10/01/2020 15:51:00',
+                      date: '15:51',
                       message: 'Nessuna nuova, buona nuova',
                       status: 'sent',
                       read : "read"
@@ -167,13 +168,13 @@ createApp({
           visible: true,
           messages: [
                       {
-                      date: '10/01/2020 15:30:55',
+                      date: '15:30',
                       message: 'Fai gli auguri a Martina che è il suo compleanno!',
                       status: 'sent',
                       read : "read"
                       },
                       {
-                      date: '10/01/2020 15:50:00',
+                      date: '15:50',
                       message: 'Grazie per avermelo ricordato, le scrivo subito!',
                       status: 'received',
                       read : "read"
@@ -186,19 +187,19 @@ createApp({
           visible: true,
           messages: [
                       {
-                      date: '10/01/2020 15:30:55',
+                      date: '15:30',
                       message: 'Ciao, andiamo a mangiare la pizza stasera?',
                       status: 'received',
                       read : "read"
                       },
                       {
-                      date: '10/01/2020 15:50:00',
+                      date: '15:50',
                       message: 'No, l\'ho già mangiata ieri, ordiniamo sushi!',
                       status: 'sent',
                       read : "read"
                       },
                       {
-                      date: '10/01/2020 15:51:00',
+                      date: '15:51',
                       message: 'OK!!',
                       status: 'received',
                       read : "read"
@@ -228,7 +229,10 @@ createApp({
 
     // Finta risposta alla chat
     fakeResponse(){
+
       const clock = setTimeout(() => {
+
+        this.updateTime();
 
         this.contacts[this.activePerson].messages[this.contacts[this.activePerson].messages.length - 1].read = "read";
 
@@ -250,6 +254,7 @@ createApp({
     // Invia messaggio
     sendNewMsg(){
       if (this.sentMsg != ""){
+        this.updateTime();
         this.contacts[this.activePerson].messages.push(
           {
             date: this.now,
@@ -297,6 +302,7 @@ createApp({
       let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;    
       let speech = new SpeechRecognition(); //Nuova istanza da classe SpeechRecognition
 
+      this.badgeMsg = "In ascolto"
       this.isSpeaking = true;
 
       speech.start();
@@ -307,6 +313,10 @@ createApp({
             this.sentMsg = speechResult;
             this.isSpeaking = false;
           }
+      
+      speech.onerror = (e) => {
+            this.badgeMsg = "Non ho capito. Riprova."
+      }
     },
 
     // Ricerca delle chat
@@ -319,10 +329,13 @@ createApp({
     //Risposta a random
     randomMsg(){
 
-      const n = Math.floor(Math.random() * this.fakeMsgs.length - 1);
-      
+      const n = Math.floor(Math.random() * this.fakeMsgs.length - 1) + 1;
       return this.fakeMsgs[n];
 
+    },
+
+    updateTime(){
+      this.now = DateTime.now().setLocale('it').toLocaleString(DateTime.TIME_24_SIMPLE);
     }
   
   },
@@ -330,5 +343,7 @@ createApp({
   mounted(){
     // Imposta la conversazione attuale
     this.currentConversation(this.activePerson);
+    this.updateTime();
+
   }
 }).mount('#app')
