@@ -21,8 +21,84 @@
     --color-azure: #8edafc;
     --color-bodyBg: #dadbd3;
     --color-red: #ee7c7c;
-
 }
+
+/* Tema Scuro */
+.wrapper.window.dark{
+    --color-green: #009688;
+    --color-lightgreen: #d5f9ba;
+    --color-lightgreen-contrast: #c1ddad;
+    --color-gray-1: #303030;
+    --color-gray-2: #1e1e1e!important;
+    --color-gray-3: #2b2a2a;
+    --color-gray-4: #2e2e2e;
+    --color-gray-text: #383838;
+    --color-darkgray: #e0e0e0;
+    --color-azure: #8edafc;
+    --color-bodyBg: #272727!important;
+    --color-red: #ee7c7c;
+    color: white;
+}
+
+.dark .br-gray{
+    border: 1px solid var(--color-gray-1);
+}
+
+.dark .chatlist{
+    background-color: var(--color-bodyBg);
+}
+
+.dark .btn, .dark .btn-dark{
+    color: white!important;
+}
+
+.dark .dropdown-menu{
+    background-color: var(--color-bodyBg);
+    color: white;
+}
+
+.dark .msg.received .content{
+    background-color: var(--color-gray-3);
+}
+.dark .msg.received .content .timestamp{
+    color: white;
+}
+
+.dark .msg.sent .content{
+    color: black;
+}
+
+.dark input[type="text"]{
+    background-color: var(--color-bodyBg);
+    border: 1px solid black;
+    color: white;
+}
+
+.dark .timestamp{
+    color: black;
+}
+
+.dark .notification{
+    background-color: var(--color-bodyBg);
+}
+
+.dark .notification a, .dark .notification i {
+    color: white;
+}
+
+.dark .notification .rounded-icon{
+    background-color: #272727;
+}
+
+
+.dark ::-webkit-scrollbar-track {background: var(--color-gray-4);}
+.dark ::-webkit-scrollbar-thumb {
+    background: var(--color-bodyBg); border-radius: 20px;
+}
+.dark ::-webkit-scrollbar-thumb:hover {background: var(--color-gray-text);}
+
+/* Fine Tema Scuro */
+
 *:not(i), 
 html:not(i){
     font-family: 'Roboto', sans-serif;
@@ -31,6 +107,14 @@ html:not(i){
 
 body{
     background-color: var(--color-bodyBg);
+}
+
+h1{
+    font-size: 2rem;
+}
+
+h2{
+    font-size: 1.5rem;
 }
 
 /* Colors */
@@ -424,12 +508,70 @@ header{
 
 /* Messages */
 
+.welcome-page{
+    position: relative;
+    height: 100%;
+    top: -60px;
+    background-color: var(--color-bodyBg);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.welcome-page img{
+    width: 200px;
+}
+
+.welcome-page h1{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.welcome-page p{
+    max-width: 500px;
+}
+
+.welcome-page .disclamer{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+    width: 350px;
+}
+
+.splash-page{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.99);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.splash-page img{
+    width: 50px;
+    filter: invert(0);
+}
+
+.splash-page h2{
+    color: white;
+    margin: 20px 0px;
+}
+
 .messages{
     position: relative;
     background-image: url(../img/mine.jpg);
     height: calc(100% - 120px);
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.dark .messages{
+    background-image: url(../img/mine-dark.jpg);
 }
 
 .messages ul{

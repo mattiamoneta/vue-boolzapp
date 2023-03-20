@@ -12,8 +12,6 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
 
-
-
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,8 +24,18 @@
 </head>
 <body> 
     <header></header> 
+   
     <div id="app">
-        <div class="wrapper window">
+        <div v-show="splashPage" class="splash-page d-flex">
+            <img src="./img/wapp.webp" alt="">
+            <h2>Caricamento dell'interfaccia</h2>
+            <div>
+                <span class="anim-dot dot-big dot-1"></span>
+                <span class="anim-dot dot-big dot-2"></span>
+                <span class="anim-dot dot-big dot-3"></span>
+            </div>
+        </div>
+        <div class="wrapper window" :class="theme">
            <div class="row h-100">
                 <!-- Left Sidebar -->
                 <aside class="col-4 br-gray bg-white">
@@ -134,7 +142,7 @@
                 <main class="col-8 debug">
 
                     <div class="toolbar d-flex align-center p-2">
-                        <div class="col-5 d-flex h-100">
+                        <div v-if="contacts.length > 0" class="col-5 d-flex h-100">
                             <div class="img-wrap">
                                 <img :src="contacts[activePerson].avatar" alt="" class="rounded-img">
                             </div>
@@ -145,21 +153,24 @@
                         </div>
                         <div class="col-7 text-right">
 
-                            <button class="btn btn-dark"><i class="ion-ios-gear-outline"></i></button>
-                            
-                            <div class="toolbar-separator"></div>
                                 <div class="d-inblock relative">
-                                    <button class="btn btn-dark" @click="handleDrop2()"><i class="ion-android-more-vertical"></i></button>
+                                    <button class="btn btn-dark" @click="handleDrop2()"><i class="ion-ios-gear-outline"></i></button>
                                     <ul v-if="showDrop2" class="dropdown-menu right">
-                                        <li><a href="#">Link 1</a></li>
-                                        <li><a href="#">Link 1</a></li>
-                                        <li><a href="#">Link 1</a></li>
+                                        <li><i class="ion-android-add-circle"></i> Testo</li>
+                                        <li><i class="ion-android-remove-circle"></i> Testo</li>
+                                        <li @click="toggleDark()"><i class="ion-paintbucket"></i> Tema Scuro/Chiaro</li>
                                     </ul>
                                 </div>
                         </div>
                     </div>
 
-                    <div class="messages p-5">
+                    <div v-if="welcomePage" class="welcome-page d-flex">
+                        <img src="./img/wapp.webp" alt="">
+                        <h1>Benvenuto in BoolzApp</h1>
+                        <p class="text-darkgray text-center">Semplicità, affidabilità e riservatezza in messaggi e chiamate gratuiti*, disponibili in tutto il mondo.</p>
+                        <span class="disclamer text-center text-darkgray text-xsmall">*Potrebbero essere applicati costi per il traffico dati. Rivolgiti al tuo gestore per ulteriori dettagli.</span>
+                    </div>
+                    <div v-else class="messages p-5">
 
                        <ul>
                             <li v-for="(msg, index) in activePersonMsg" class="msg py-2" :class="msg.status">
@@ -177,6 +188,8 @@
 
                     </div>
 
+                    
+
                     <div class="bottom-bar d-flex justify-between p-3">
                         <div class="col-1">
                             <button class="btn my-auto"><i class="ion-paper-airplane" @click="sendNewMsg"></i></button>
@@ -191,22 +204,25 @@
                         </div>
                     </div>
 
-                    <div v-show="contacts[activePerson].isWriting" class="is-writing">
-                        {{contacts[activePerson].name}} sta scrivendo 
-                        <span class="anim-dot dot-1"></span>
-                        <span class="anim-dot dot-2"></span>
-                        <span class="anim-dot dot-3"></span>
-                    </div>
-
-                    <div v-show="isSpeaking" class="voice-recorder-badge text-center">
-                        <div><i class="ion-android-microphone"></i></div>
-                        <div class="py-2 text-small">{{ badgeMsg }}</div>
-                        <div>
-                            <span class="anim-dot dot-big dot-1"></span>
-                            <span class="anim-dot dot-big dot-2"></span>
-                            <span class="anim-dot dot-big dot-3"></span>
+                    <div v-if="contacts.length > 0">
+                        <div v-show="contacts[activePerson].isWriting" class="is-writing">
+                            {{contacts[activePerson].name}} sta scrivendo 
+                            <span class="anim-dot dot-1"></span>
+                            <span class="anim-dot dot-2"></span>
+                            <span class="anim-dot dot-3"></span>
+                        </div>
+    
+                        <div v-show="isSpeaking" class="voice-recorder-badge text-center">
+                            <div><i class="ion-android-microphone"></i></div>
+                            <div class="py-2 text-small">{{ badgeMsg }}</div>
+                            <div>
+                                <span class="anim-dot dot-big dot-1"></span>
+                                <span class="anim-dot dot-big dot-2"></span>
+                                <span class="anim-dot dot-big dot-3"></span>
+                            </div>
                         </div>
                     </div>
+
                 </main>
            </div>
         </div>

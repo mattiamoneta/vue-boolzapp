@@ -4,6 +4,9 @@ const DateTime = luxon.DateTime;
 createApp({
   data() {
     return{
+      theme: '',
+      splashPage: true,
+      welcomePage : true,
       showDrop1 : false,
       showDrop2 : false,
       showDropdown : false,
@@ -249,14 +252,26 @@ createApp({
 
     // Imposta la conversazione attuale
     currentConversation(index){
-      this.activePersonMsg = null;
-      this.activePerson = index;
-      this.activePersonMsg = this.contacts[index].messages;
+      if(index < 0){
+        this.welcomePage = true;
+      }else if (index < this.contacts.length){
+        this.welcomePage = false;
+        this.activePersonMsg = null;
+        this.activePerson = index;
+        this.activePersonMsg = this.contacts[index].messages;
+      }else if(this.contacts.length == 0){
+        this.welcomePage = true;
+      }else {
+        this.welcomePage = false;
+        this.activePersonMsg = null;
+        this.activePerson = 0;
+        this.activePersonMsg = this.contacts[0].messages;
+      }
     },
 
     // Invia messaggio
     sendNewMsg(){
-      if (this.sentMsg != ""){
+      if (this.sentMsg.replace(/\s/g,"") !== ""){
         this.contacts[this.activePerson].messages.push(
           {
             date: this.getTime(),
@@ -355,7 +370,10 @@ createApp({
     // Ricerca delle chat
     realtimeSearch(){
        if (this.searchQuery != ""){
-          this.foundMatch = this.contacts.filter(e => e.name.startsWith(this.searchQuery));
+
+        let query = this.searchQuery.toLowerCase();
+        this.foundMatch = this.contacts.filter(e => e.name.toLowerCase().startsWith(query));
+
        }
     },
 
@@ -367,10 +385,12 @@ createApp({
 
     },
 
+    // Ottiene ora corrente
     getTime(){
       return DateTime.now().setLocale('it').toLocaleString(DateTime.TIME_24_SIMPLE);
     },
 
+    // Handle per i dropdown
     handleDropMsg(index){
         if (this.showDropdown && this.indexShowDropdown == index){
           this.showDropdown = false;
@@ -415,6 +435,8 @@ createApp({
       }
      },
 
+
+     // Rimozione messaggi 
      removeMsg(index){
       const messages = this.contacts[this.activePerson].messages
       messages.splice(index, 1);
@@ -422,22 +444,51 @@ createApp({
       this.indexShowDropdown = null;
      },
      
+    //  Rimozione chat
      deleteChat(name){
       this.contacts = this.contacts.filter((e)=>{
           if (e.name != name){
             return true
           }
       })
-     
+      this.activePerson = 0;
+      this.currentConversation(this.activePerson);
       this.showChatDropdown = false;
       this.indexChatDropdown = null;
-     }
-  
+     },
+
+    // Dimensione carattere
+    fontSize(increase){
+      if (increase == true){
+        this.font += 0.5;
+        this.getRawHTML();
+        console.log(this.fontHTML);
+      } else if (increase == false && this.font > 0) {
+        this.font -= 0.5;
+        this.getRawHTML();
+        console.log(this.fontHTML);
+      }
+    },
+
+    loadUI(){
+      const clock = setTimeout(()=>{
+        this.splashPage = false;
+      },2000);
+    },
+
+    toggleDark(){
+      if(this.theme == ''){
+        this.theme = 'dark';
+      }else{
+        this.theme = '';
+      }
+    },  
   },
   
   mounted(){
     // Imposta la conversazione attuale
-    this.currentConversation(this.activePerson);
+    this.loadUI();
+    this.currentConversation(-1);
 
   }
 }).mount('#app')
