@@ -5,15 +5,24 @@ createApp({
   data() {
     return{
       theme: '',
+      mouseX: 0,
+      mouseY: 0,
+      logged : false,
+      newUserName: '',
+      newUserAvatar: '',
+      dropPosition: '',
       splashPage: true,
       welcomePage : true,
       userPicDrop: false,
+      showDropNewUser : false,
+      showEmoji : false,
       showDrop1 : false,
       showDrop2 : false,
       showDropdown : false,
       indexShowDropdown : null,
       showChatDropdown: false,
       indexChatDropdown : null,
+      showMessageDropdown : false,
       activePerson : 0,
       speech : window.SpeechRecognition,
       badgeMsg : "In ascolto",
@@ -25,6 +34,28 @@ createApp({
       lastDropRef : "",
       activePersonMsg : [],
       isSpeaking : false,
+      emojiList : ['&#128512', '&#128513', '&#128514', '&#128515', '&#128516', '&#128517', '&#128518', 
+        '&#128519', '&#128520', '&#128521', '&#128522', '&#128523', '&#128524', '&#128525', '&#128526', '&#128527', 
+        '&#128528', '&#128529', '&#128530', '&#128531', '&#128532', '&#128533', '&#128534', '&#128535', '&#128536', 
+        '&#128537', '&#128538', '&#128539', '&#128540', '&#128541', '&#128542', '&#128543', '&#128544', '&#128545', 
+        '&#128546', '&#128547', '&#128548', '&#128549', '&#128550', '&#128551', '&#128552', '&#128553', '&#128554', 
+        '&#128555', '&#128556', '&#128557', '&#128558', '&#128559', '&#128560', '&#128561', '&#128562', '&#128563', 
+        '&#128564', '&#128565', '&#128566', '&#128567', '&#128568', '&#128569', '&#128570', '&#128571', '&#128572', 
+        '&#128573', '&#128574', '&#128575', '&#128576', '&#128577', '&#128578', '&#128579', '&#128580', '&#128581', 
+        '&#128582', '&#128583', '&#128584', '&#128585', '&#128586', '&#128587', '&#128588', '&#128589', '&#128590', 
+        '&#128591', '&#128592', '&#128593', '&#128594', '&#128595', '&#128596', '&#128597', '&#128598', '&#128599', 
+        '&#128600', '&#128601', '&#128602', '&#128603', '&#128604', '&#128605', '&#128606', '&#128607', '&#128608', 
+        '&#128609', '&#128610', '&#128611', '&#128612', '&#128613', '&#128614', '&#128615', '&#128616', '&#128617', 
+        '&#128618', '&#128619', '&#128620', '&#128621', '&#128622', '&#128623', '&#128624', '&#128625', '&#128626', 
+        '&#128627', '&#128628', '&#128629', '&#128630', '&#128631', '&#128632', '&#128633', '&#128634', '&#128635', 
+        '&#128636', '&#128637', '&#128638', '&#128639', '&#128640', '&#128641', '&#128642', '&#128643', '&#128644', 
+        '&#128645', '&#128646', '&#128647', '&#128648', '&#128649', '&#128650', '&#128651', '&#128652', '&#128653', 
+        '&#128654', '&#128655', '&#128656', '&#128657', '&#128658', '&#128659', '&#128660', '&#128661', '&#128662', 
+        '&#128663', '&#128664', '&#128665', '&#128666', '&#128667', '&#128668', '&#128669', '&#128670', '&#128671', 
+        '&#128672', '&#128673', '&#128674', '&#128675', '&#128676', '&#128677', '&#128678', '&#128679', '&#128680', 
+        '&#128681', '&#128682', '&#128683', '&#128684', '&#128685', '&#128686', '&#128687', '&#128688', '&#128689', 
+        '&#128690', '&#128691', '&#128692', '&#128693', '&#128694', '&#128695', '&#128696', '&#128697', '&#128698', 
+        '&#128699', '&#128700'],
       fontIndex: 1,
       fontSizes : [
         'font-sm',
@@ -270,13 +301,18 @@ createApp({
         this.welcomePage = false;
         this.activePersonMsg = null;
         this.activePerson = index;
-        this.activePersonMsg = this.contacts[index].messages;
+        if(this.contacts[index].messages.length > 0){
+          this.activePersonMsg = this.contacts[index].messages;
+        }else{
+          this.activePersonMsg = {};
+        }
       }else if(this.contacts.length == 0){
         this.welcomePage = true;
       }else {
         this.welcomePage = false;
         this.activePersonMsg = null;
         this.activePerson = 0;
+
         this.activePersonMsg = this.contacts[0].messages;
       }
     },
@@ -463,6 +499,74 @@ createApp({
        }
      },
 
+     showNewUser(){
+      if (this.showDropNewUser == false){
+        this.showDropNewUser = true;
+       } else {
+        this.showDropNewUser = false;
+       }
+     },
+
+    // Aggiunge nuovo utente
+     addNewUser(name, url){
+
+      if(name == ""){
+        alert("E' necessario inserire un nome per poter proseguire. Riprova.");
+      }else{
+
+        if(url == ""){
+          this.newUserAvatar = "./img/user_generic.jpg";
+        } else {
+          this.newUserAvatar = url;
+        }
+
+        this.newUserName = name;
+
+
+        this.contacts.push(
+          {
+            name: this.newUserName,
+            avatar: this.newUserAvatar,
+            visible: true,
+            currentAction: "",
+            lastAccess : this.getTime(),
+            online: false,
+            isWriting: false,
+            messages: [],
+          }
+        );
+  
+        
+      }
+     
+      this.newUserAvatar = "";
+      this.newUserName = "";
+      this.showDropNewUser = false;
+      
+     },
+
+     dropMessage($event){
+        this.mouseX = $event.clientX - 770;
+        this.mouseY = $event.clientY - 80;
+
+        if(this.showMessageDropdown == false){
+          this.showMessageDropdown = true;
+          this.dropPosition = `top: ${this.mouseY}px!important; left: ${this.mouseX}px!important;`;
+        }else {
+          this.showMessageDropdown = false;
+          this.dropPosition = "";
+        }
+
+     },
+
+     openEmoji(){
+      if(this.showEmoji == false){
+        this.showEmoji = true;
+      }else {
+        this.showEmoji = false;
+      }
+     },
+ 
      // Rimozione messaggi 
      removeMsg(index){
       const messages = this.contacts[this.activePerson].messages
@@ -484,6 +588,19 @@ createApp({
       this.indexChatDropdown = null;
      },
 
+    //  Rimuovi solo messaggi
+
+    deleteMsgOnly(name){
+        this.contacts.forEach((person, index) => {
+          if(person.name == name){
+            console.log(person.name);
+            this.contacts[index].messages = [];
+            this.currentConversation(this.activePerson);
+          }
+
+          this.showChatDropdown = false;
+        })
+    },
     // Splash Page
     loadUI(){
       const clock = setTimeout(()=>{
@@ -507,6 +624,7 @@ createApp({
       scroll.scrollTo(0, height);
     },
 
+    // Modifica dimensione dei font
     changeFontSize(val){
       if(val == true && this.fontIndex < this.fontSizes.length -1){
         
@@ -518,6 +636,12 @@ createApp({
 
       }
     },
+    
+    addEmoji(index){
+
+      this.sentMsg += this.emojiList[index];
+      this.showEmoji = false;
+    }
 
   },
   

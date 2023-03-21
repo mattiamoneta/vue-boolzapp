@@ -36,6 +36,11 @@
             </div>
         </div>
         <div class="wrapper window" :class="theme">
+            <div v-show="!logged" class="fake-login">
+                <img src="./img/wapp.webp" alt="">
+                <h1>Disconnesso</h1>
+                <button class="btn-outline btn-lg mt-5" @click="logged = true">ACCEDI</button>
+            </div>
            <div class="row h-100">
                 <!-- Left Sidebar -->
                 <aside class="col-4 br-gray bg-white">
@@ -59,22 +64,30 @@
                                 <img :src="user.avatar" alt="" class="rounded-img">
                             </div>
                             <div class="d-inblock my-auto ps-2">
-                                <div class="text-bold">{{user.name}}</div>
+                                <div class="text-bold user-name" @click="showPicDrop">{{user.name}}</div>
                             </div>
                         </div>
                         <div class="col-7 text-right">
 
 
-                            <button class="btn btn-dark" id="send-more"><i class="ion-ios-paperplane-outline"></i></button>           
-                            
+                            <button class="btn btn-dark" id="send-more" @click="showNewUser()"><i class="ion-ios-paperplane-outline"></i></button>           
+                            <ul v-show="showDropNewUser" class="dropdown-menu dropdown-lg left p-4">
+                                <label class="d-block mb-1 text-small" for="textUser">Nome Utente</label>
+                                <input class="d-block w-100 p-2 mb-2" v-model="newUserName" type="text" name="textUser" id="textUser" placeholder="Nuovo nome utente..." >
+                                
+                                <label class="d-block mb-1 text-small" for="textPicture">Immagine</label>
+                                <input class="d-block w-100 p-2" v-model="newUserAvatar" type="text" name="textPicture" id="textPicture" placeholder="Inserisci link immagine..." >
+                                
+                                <div class="btn-wrapper mt-3 text-right">
+                                        <button class="btn-outline" @click="addNewUser(newUserName, newUserAvatar)">Salva</button>
+                                </div>
+                            </ul>
+
                             <!-- Dropdown -->
                             <div class="d-inblock relative">
                                 <button class="btn btn-dark" @click="handleDrop1()"><i class="ion-android-more-vertical"></i></button>
                                 <ul v-if="showDrop1" class="dropdown-menu right">
-                                    <li><a href="#">Nuovo gruppo</a></li>
-                                    <li><a href="#">Messaggi Importanti</a></li>
-                                    <li><a href="#">Impostazioni</a></li>
-                                    <li><a href="#">Disconnetti</a></li>
+                                    <li @click="logged = false; showDrop1 = false"><a href="#">Disconnetti</a></li>
                                 </ul>
                             </div>
 
@@ -100,7 +113,7 @@
                     <div class="searchbar p-1">
                         <div class="input-field">
                             <i class="ion-search text-gray-text"></i>
-                            <input type="text" name="" id="" @keyup="realtimeSearch" v-model="searchQuery" class="form-input-text search-icon" placeholder="Cerca o inizia una nuova chat">
+                            <input type="text" name="" id="" @keyup="realtimeSearch" v-model="searchQuery"  class="form-input-text search-icon" placeholder="Cerca o inizia una nuova chat">
                         </div>
                     </div>
 
@@ -119,7 +132,7 @@
                                     <div class="d-inblock ps-3">
                                         <div class="text-bold">{{filters.name}}</div>
                                         <div class="text-small text-darkgray text-overflow">{{filters.messages[filters.messages.length - 1].message}}</div>
-                                        <div v-if="!filters.online" class="user-lastaccess text-darkgray text-xsmall mt-1">Ultimo accesso {{filters.lastAccess}}</div>
+                                        <div v-if="!filters.onlideletechatne" class="user-lastaccess text-darkgray text-xsmall mt-1">Ultimo accesso {{filters.lastAccess}}</div>
                                     </div>
                 
                                 </li>  
@@ -134,7 +147,8 @@
                                             <div class="text-bold">{{person.name}}</div>
                                         
                                             <div v-if="person.isWriting" class="text-small text-overflow">{{person.currentAction}}</div>
-                                            <div v-else id="last-msg" class="text-small text-overflow">{{person.messages[person.messages.length - 1].message}}</div>
+                                            <div v-else-if="person.messages.length > 0" id="last-msg" class="text-small text-overflow">{{person.messages[person.messages.length - 1].message}}</div>
+                                            
                                             <div v-if="!person.online" id="last-access" class="user-lastaccess text-darkgray text-xsmall mt-1">Ultimo accesso {{person.lastAccess}}</div>
                                             <button class="chat-btn" @click="handleDropChat(index)"><i class="ion-more"></i></button>
                                         </div>
@@ -143,7 +157,7 @@
                                    
                                         <!-- Menu eliminazione voce -->
                                         <ul v-show="showChatDropdown && indexChatDropdown == index" class="dropdown-menu right">
-                                            <li @click="deleteChat(person.name)">Elimina Chat</li>
+                                            <li @click="deleteChat(person.name)"><i class="me-2 ion-chatboxes"></i> Elimina intera Chat</li>
                                         </ul>
 
                                     </li>      
@@ -190,13 +204,18 @@
                         <span class="disclamer text-center text-darkgray text-xsmall">*Potrebbero essere applicati costi per il traffico dati. Rivolgiti al tuo gestore per ulteriori dettagli.</span>
                     </div>
                     <!-- Pagina messaggi -->
-                    <div v-else class="messages p-5" id="auto-scroll"  >
+                    <div v-else class="messages p-5" id="auto-scroll" @click.prevent.right="dropMessage($event)" @click="showMessageDropdown = false">
+                        <!-- Menu eliminazione voce -->
+                        <ul v-show="showMessageDropdown" class="dropdown-menu right" :style="dropPosition">
+                            <li @click="deleteMsgOnly(contacts[activePerson].name)"><i class="me-2 ion-chatbox-working"></i>Elimina Messaggi</li>
+                            <li @click="deleteChat(contacts[activePerson].name)"><i class="me-2 ion-chatboxes"></i>Elimina intera chat</li>
+                        </ul>
                        <ul>
                             <li v-for="(msg, index) in activePersonMsg" class="msg py-2" :class="msg.status">
                                 <div class="content" :class="fontSizes[fontIndex]">
                                     {{msg.message}}
                                         <button class="btn-drop" @click="handleDropMsg(index)"><i class="ion-chevron-down text-darkgray"></i></button>
-                                        <ul v-show="showDropdown && indexShowDropdown == index" class="dropdown-menu right" >
+                                        <ul v-show="showDropdown && indexShowDropdown == index" class="dropdown-menu right">
                                             <li @click="removeMsg(index)"><i class="ion-android-delete"></i> Elimina</li>
                                         </ul>
                                     <span class="timestamp text-small text-darkgray">{{msg.date}} <i class="msg-icon ion-checkmark-round" :class="msg.read"></i></span>
@@ -214,8 +233,13 @@
                         </div>
                         <div class="col-10">
                             <div class="input-field h-100">
-                                <input type="text" name="txtInputMsg" id="txtInputMsg" class="form-input-text h-100 ps-0" v-model="sentMsg"  @keyup.enter="sendNewMsg"  placeholder="Scrivi un messaggio">
+                                <button class="smile" @click="openEmoji()"><i class="ion-happy-outline"></i></button>
+                                <input type="text" name="txtInputMsg" id="txtInputMsg" class="form-input-text h-100 ps-0" v-model="sentMsg" @keyup.enter="sendNewMsg"  placeholder="Scrivi un messaggio">
+                                <ul v-if="showEmoji" class="dropdown-menu right dropup icons-drop">
+                                    <li v-for="(emoji, index) in emojiList" class="emoji" v-html="emoji" @click="addEmoji(index)"></li>
+                                </ul>
                             </div>
+                           
                         </div>
                         <div class="col-1 text-right">
                             <button class="btn btn-red my-auto" @click="voiceRecord"><i class="ion-android-microphone"></i></button>
