@@ -44,17 +44,30 @@
                     <div class="toolbar d-flex align-center p-2">
                         <div class="col-5 d-flex h-100">
                             <div class="img-wrap">
-                                <img src="./img/user_generic.jpg" alt="" class="rounded-img">
+                                <div class="overlay" @click = "showPicDrop">
+                                    <i class="ion-edit"></i>
+                                </div>
+                                <ul v-show="userPicDrop" class="dropdown-menu dropdown-lg left p-4">
+                                    <label class="d-block mb-1 text-small" for="textUser">Nome Utente</label>
+                                    <input class="d-block w-100 p-2 mb-2" v-model="user.name" type="text" name="textUser" id="textUser" placeholder="Nuovo nome utente..." @keyup.enter="userPicDrop = false">
+                                    <label class="d-block mb-1 text-small" for="textPicture">Immagine</label>
+                                    <input class="d-block w-100 p-2" v-model="user.avatar" type="text" name="textPicture" id="textPicture" placeholder="Inserisci link immagine..." @keyup.enter="userPicDrop = false">
+                                    <div class="btn-wrapper mt-3 text-right">
+                                            <button class="btn-outline" @click="userPicDrop = false">Salva</button>
+                                    </div>
+                                </ul>
+                                <img :src="user.avatar" alt="" class="rounded-img">
                             </div>
                             <div class="d-inblock my-auto ps-2">
-                                <div class="text-bold">Sofia</div>
+                                <div class="text-bold">{{user.name}}</div>
                             </div>
                         </div>
                         <div class="col-7 text-right">
 
 
-                            <button class="btn btn-dark" ><i class="ion-ios-paperplane-outline"></i></button>           
+                            <button class="btn btn-dark" id="send-more"><i class="ion-ios-paperplane-outline"></i></button>           
                             
+                            <!-- Dropdown -->
                             <div class="d-inblock relative">
                                 <button class="btn btn-dark" @click="handleDrop1()"><i class="ion-android-more-vertical"></i></button>
                                 <ul v-if="showDrop1" class="dropdown-menu right">
@@ -71,6 +84,7 @@
 
                     <!-- Notifications Badge -->
                     <div class="notification p-3" v-show="notifyBanner">
+                        <button class="close" @click="disposeNotifications"><i class="ion-close-round"></i></button>
                            <div class="d-flex h-100">
                                 <div class="img-wrap rounded-icon my-auto">
                                     <i class="ion-android-notifications-off"></i>
@@ -95,11 +109,13 @@
                         <div class="chatlist-wrap">
                             <ul>
       
-                                <li v-if="searchQuery != ''" v-for="(filters, index) in foundMatch" class="d-flex chat-item" @click="currentConversation(index)" @click.stop.right="handleDropChat(index)">
+                                <li v-if="searchQuery != ''" v-for="(filters, index) in foundMatch" class="d-flex chat-item"  @click="currentConversation(index)" @click.stop.right="handleDropChat(index)">
+                                    <!-- User picture -->
                                     <div class="online-dot" :class="filters.online ? 'online':'offline' "></div>
                                     <div class="img-wrap">
                                         <img :src="filters.avatar" alt="" class="rounded-img img-md">
                                     </div>
+                                    <!-- Nome, accesso e stato -->
                                     <div class="d-inblock ps-3">
                                         <div class="text-bold">{{filters.name}}</div>
                                         <div class="text-small text-darkgray text-overflow">{{filters.messages[filters.messages.length - 1].message}}</div>
@@ -107,23 +123,25 @@
                                     </div>
                 
                                 </li>  
-                                <li v-else v-for="(person, index) in contacts" class="d-flex chat-item" @click="currentConversation(index)" @click.prevent.right="handleDropChat(index)">
+                                <li v-else v-for="(person, index) in contacts" class="d-flex chat-item" :class="index == activePerson ? 'active':''" @click="currentConversation(index)" @click.prevent.right="handleDropChat(index)">
+                                        <!-- User picture -->
                                         <div class="online-dot" :class="person.online ? 'online':'offline' "></div>
                                         <div class="img-wrap">
                                             <img :src="person.avatar" alt="" class="rounded-img img-md">
                                         </div>
-                                        <div class="d-inblock ps-3">
+                                        <!-- Nome, accesso e stato -->
+                                        <div class="d-inblock ps-3" id="user-description">
                                             <div class="text-bold">{{person.name}}</div>
                                         
                                             <div v-if="person.isWriting" class="text-small text-overflow">{{person.currentAction}}</div>
-                                            <div v-else class="text-small text-overflow">{{person.messages[person.messages.length - 1].message}}</div>
-                                            
-                                            <div v-if="!person.online" class="user-lastaccess text-darkgray text-xsmall mt-1">Ultimo accesso {{person.lastAccess}}</div>
-
+                                            <div v-else id="last-msg" class="text-small text-overflow">{{person.messages[person.messages.length - 1].message}}</div>
+                                            <div v-if="!person.online" id="last-access" class="user-lastaccess text-darkgray text-xsmall mt-1">Ultimo accesso {{person.lastAccess}}</div>
+                                            <button class="chat-btn" @click="handleDropChat(index)"><i class="ion-more"></i></button>
                                         </div>
 
                                         <span v-if="person.online" class="user-online text-small text-darkgray">Online</span>
                                    
+                                        <!-- Menu eliminazione voce -->
                                         <ul v-show="showChatDropdown && indexChatDropdown == index" class="dropdown-menu right">
                                             <li @click="deleteChat(person.name)">Elimina Chat</li>
                                         </ul>
@@ -142,7 +160,7 @@
                 <main class="col-8 debug">
 
                     <div class="toolbar d-flex align-center p-2">
-                        <div v-if="contacts.length > 0" class="col-5 d-flex h-100">
+                        <div v-if="contacts.length > 0" class="col-5 d-flex h-100" id="current-user-bar">
                             <div class="img-wrap">
                                 <img :src="contacts[activePerson].avatar" alt="" class="rounded-img">
                             </div>
@@ -156,25 +174,26 @@
                                 <div class="d-inblock relative">
                                     <button class="btn btn-dark" @click="handleDrop2()"><i class="ion-ios-gear-outline"></i></button>
                                     <ul v-if="showDrop2" class="dropdown-menu right">
-                                        <li><i class="ion-android-add-circle"></i> Testo</li>
-                                        <li><i class="ion-android-remove-circle"></i> Testo</li>
+                                        <li @click="changeFontSize(true)"><i class="ion-android-add-circle"></i> Testo</li>
+                                        <li @click="changeFontSize(false)"><i class="ion-android-remove-circle"></i> Testo</li>
                                         <li @click="toggleDark()"><i class="ion-paintbucket"></i> Tema Scuro/Chiaro</li>
                                     </ul>
                                 </div>
                         </div>
                     </div>
 
+                    <!-- Pagina di benvenuto -->
                     <div v-if="welcomePage" class="welcome-page d-flex">
                         <img src="./img/wapp.webp" alt="">
                         <h1>Benvenuto in BoolzApp</h1>
                         <p class="text-darkgray text-center">Semplicità, affidabilità e riservatezza in messaggi e chiamate gratuiti*, disponibili in tutto il mondo.</p>
                         <span class="disclamer text-center text-darkgray text-xsmall">*Potrebbero essere applicati costi per il traffico dati. Rivolgiti al tuo gestore per ulteriori dettagli.</span>
                     </div>
-                    <div v-else class="messages p-5">
-
+                    <!-- Pagina messaggi -->
+                    <div v-else class="messages p-5" id="auto-scroll"  >
                        <ul>
                             <li v-for="(msg, index) in activePersonMsg" class="msg py-2" :class="msg.status">
-                                <div class="content">
+                                <div class="content" :class="fontSizes[fontIndex]">
                                     {{msg.message}}
                                         <button class="btn-drop" @click="handleDropMsg(index)"><i class="ion-chevron-down text-darkgray"></i></button>
                                         <ul v-show="showDropdown && indexShowDropdown == index" class="dropdown-menu right" >
@@ -188,8 +207,7 @@
 
                     </div>
 
-                    
-
+                    <!-- Barra inferiore -->
                     <div class="bottom-bar d-flex justify-between p-3">
                         <div class="col-1">
                             <button class="btn my-auto"><i class="ion-paper-airplane" @click="sendNewMsg"></i></button>
@@ -204,14 +222,16 @@
                         </div>
                     </div>
 
+                    
                     <div v-if="contacts.length > 0">
+                        <!-- Badge animato Scrittura -->
                         <div v-show="contacts[activePerson].isWriting" class="is-writing">
                             {{contacts[activePerson].name}} sta scrivendo 
                             <span class="anim-dot dot-1"></span>
                             <span class="anim-dot dot-2"></span>
                             <span class="anim-dot dot-3"></span>
                         </div>
-    
+                        <!-- Badge animato Dettatura Vocale -->    
                         <div v-show="isSpeaking" class="voice-recorder-badge text-center">
                             <div><i class="ion-android-microphone"></i></div>
                             <div class="py-2 text-small">{{ badgeMsg }}</div>

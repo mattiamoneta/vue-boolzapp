@@ -7,6 +7,7 @@ createApp({
       theme: '',
       splashPage: true,
       welcomePage : true,
+      userPicDrop: false,
       showDrop1 : false,
       showDrop2 : false,
       showDropdown : false,
@@ -24,12 +25,23 @@ createApp({
       lastDropRef : "",
       activePersonMsg : [],
       isSpeaking : false,
+      fontIndex: 1,
+      fontSizes : [
+        'font-sm',
+        'font-md',
+        'font-lg',
+        'font-xl'
+      ],
       fakeMsgs : [
         'Hey ciao!',
         'Tutto bene?',
         'Ok Capito!',
         'Tutto chiaro!'
       ],
+      user: {
+        name: 'Mattia',
+        avatar: './img/user_current.png'
+      },
       contacts: [
         {
           name: 'Michele',
@@ -281,8 +293,10 @@ createApp({
           }
         );
         this.currentConversation(this.activePerson);
+        
         this.sentMsg = "";
 
+        this.gotoBottom();
         this.fakeWriting();
       }
     },
@@ -320,6 +334,7 @@ createApp({
         //Toggle del badge "sta scrivendo"
         this.contacts[this.activePerson].isWriting = false;
       
+        this.gotoBottom();
         this.fakeUserStatus();
 
       },4000);
@@ -343,7 +358,12 @@ createApp({
       this.notifyBanner = false;
     },
 
+    disposeNotifications(){
+      this.notifyBanner = false;
+    },
+
     voiceRecord(){
+      //Dettatura Vocale
       //Uso delle Web Speech API !!! VA SOLO SU CHROME, FIXARE !!!
       this.isSpeaking = true;
       let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;    
@@ -355,7 +375,7 @@ createApp({
       speech.start();
 
       speech.onresult = (e) => {
-            let lastWord = e.resultIndex;         
+            let lastWord = e.resultIndex;       
             let speechResult = e.results[lastWord][0].transcript;
             this.sentMsg = speechResult;
             this.isSpeaking = false;
@@ -435,6 +455,13 @@ createApp({
       }
      },
 
+     showPicDrop(){
+      if (this.userPicDrop == false){
+        this.userPicDrop = true;
+       } else {
+        this.userPicDrop = false;
+       }
+     },
 
      // Rimozione messaggi 
      removeMsg(index){
@@ -457,32 +484,41 @@ createApp({
       this.indexChatDropdown = null;
      },
 
-    // Dimensione carattere
-    fontSize(increase){
-      if (increase == true){
-        this.font += 0.5;
-        this.getRawHTML();
-        console.log(this.fontHTML);
-      } else if (increase == false && this.font > 0) {
-        this.font -= 0.5;
-        this.getRawHTML();
-        console.log(this.fontHTML);
-      }
-    },
-
+    // Splash Page
     loadUI(){
       const clock = setTimeout(()=>{
         this.splashPage = false;
       },2000);
     },
 
+    // Menù Dark
     toggleDark(){
       if(this.theme == ''){
         this.theme = 'dark';
       }else{
         this.theme = '';
       }
-    },  
+    },
+
+    //Auto scroll dopo ogni messaggio
+    gotoBottom(){
+      const scroll = document.getElementById('auto-scroll');
+      const height = scroll.scrollHeight;
+      scroll.scrollTo(0, height);
+    },
+
+    changeFontSize(val){
+      if(val == true && this.fontIndex < this.fontSizes.length -1){
+        
+        this.fontIndex += 1;
+
+      } else if (val == false && this.fontIndex > 0){
+
+        this.fontIndex -= 1;
+
+      }
+    },
+
   },
   
   mounted(){
