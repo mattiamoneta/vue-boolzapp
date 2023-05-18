@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +8,9 @@
 
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Ionicons -->
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
@@ -22,9 +25,10 @@
     <title>BoolzApp Web</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
-<body> 
-    <header></header> 
-   
+
+<body>
+    <header></header>
+
     <div id="app">
         <div v-show="splashPage" class="splash-page d-flex">
             <img src="./img/wapp.webp" alt="">
@@ -41,24 +45,28 @@
                 <h1>Disconnesso</h1>
                 <button class="btn-outline btn-lg mt-5" @click="logged = true">ACCEDI</button>
             </div>
-           <div class="row h-100">
+            <div class="row h-100">
                 <!-- Left Sidebar -->
                 <aside class="col-4 br-gray bg-white">
-        
+
                     <!-- Sidebar Toolbar -->
                     <div class="toolbar d-flex align-center p-2">
                         <div class="col-5 d-flex h-100">
                             <div class="img-wrap">
-                                <div class="overlay" @click = "showPicDrop">
-                                    <i class="ion-edit"></i>
+                                <div class="overlay" @click="showPicDrop">
+                                    <i class="fa-solid fa-pen"></i>
                                 </div>
                                 <ul v-show="userPicDrop" class="dropdown-menu dropdown-lg left p-4">
                                     <label class="d-block mb-1 text-small" for="textUser">Nome Utente</label>
-                                    <input class="d-block w-100 p-2 mb-2" v-model="user.name" type="text" name="textUser" id="textUser" placeholder="Nuovo nome utente..." @keyup.enter="userPicDrop = false">
+                                    <input class="d-block w-100 p-2 mb-2" v-model="user.name" type="text"
+                                        name="textUser" id="textUser" placeholder="Nuovo nome utente..."
+                                        @keyup.enter="userPicDrop = false">
                                     <label class="d-block mb-1 text-small" for="textPicture">Immagine</label>
-                                    <input class="d-block w-100 p-2" v-model="user.avatar" type="text" name="textPicture" id="textPicture" placeholder="Inserisci link immagine..." @keyup.enter="userPicDrop = false">
+                                    <input class="d-block w-100 p-2" v-model="user.avatar" type="text"
+                                        name="textPicture" id="textPicture" placeholder="Inserisci link immagine..."
+                                        @keyup.enter="userPicDrop = false">
                                     <div class="btn-wrapper mt-3 text-right">
-                                            <button class="btn-outline" @click="userPicDrop = false">Salva</button>
+                                        <button class="btn-outline" @click="userPicDrop = false">Salva</button>
                                     </div>
                                 </ul>
                                 <img :src="user.avatar" alt="" class="rounded-img">
@@ -70,50 +78,57 @@
                         <div class="col-7 text-right">
 
 
-                            <button class="btn btn-dark" id="send-more" @click="showNewUser()"><i class="ion-ios-paperplane-outline"></i></button>           
+                            <button class="btn btn-dark" id="send-more" @click="showNewUser()"><i
+                                    class="fa-regular fa-paper-plane text-darkgray"></i></button>
                             <ul v-show="showDropNewUser" class="dropdown-menu dropdown-lg left p-4">
                                 <label class="d-block mb-1 text-small" for="textUser">Nome Utente</label>
-                                <input class="d-block w-100 p-2 mb-2" v-model="newUserName" type="text" name="textUser" id="textUser" placeholder="Nuovo nome utente..." >
-                                
+                                <input class="d-block w-100 p-2 mb-2" v-model="newUserName" type="text" name="textUser"
+                                    id="textUser" placeholder="Nuovo nome utente...">
+
                                 <label class="d-block mb-1 text-small" for="textPicture">Immagine</label>
-                                <input class="d-block w-100 p-2" v-model="newUserAvatar" type="text" name="textPicture" id="textPicture" placeholder="Inserisci link immagine..." >
-                                
+                                <input class="d-block w-100 p-2" v-model="newUserAvatar" type="text" name="textPicture"
+                                    id="textPicture" placeholder="Inserisci link immagine...">
+
                                 <div class="btn-wrapper mt-3 text-right">
-                                        <button class="btn-outline" @click="addNewUser(newUserName, newUserAvatar)">Salva</button>
+                                    <button class="btn-outline"
+                                        @click="addNewUser(newUserName, newUserAvatar)">Salva</button>
                                 </div>
                             </ul>
 
                             <!-- Dropdown -->
                             <div class="d-inblock relative">
-                                <button class="btn btn-dark" @click="handleDrop1()"><i class="ion-android-more-vertical"></i></button>
+                                <button class="btn btn-dark" @click="handleDrop1()"><i
+                                        class="fa-solid fa-ellipsis-vertical text-darkgray"></i></button>
                                 <ul v-if="showDrop1" class="dropdown-menu right">
                                     <li @click="logged = false; showDrop1 = false"><a href="#">Disconnetti</a></li>
                                 </ul>
                             </div>
 
                         </div>
-                    
+
                     </div>
 
                     <!-- Notifications Badge -->
                     <div class="notification p-3" v-show="notifyBanner">
-                        <button class="close" @click="disposeNotifications"><i class="ion-close-round"></i></button>
-                           <div class="d-flex h-100">
-                                <div class="img-wrap rounded-icon my-auto">
-                                    <i class="ion-android-notifications-off"></i>
-                                </div>
-                                <div class="d-inblock my-auto ps-2">
-                                    <div>Ricevi notifiche di nuovi messaggi</div>
-                                    <div><a href="#" class="text-small link" @click="requestNotifications">Attiva notifiche desktop &gt;</a></div>
-                                </div>
-                           </div>
+                        <button class="close" @click="disposeNotifications"><i class="fa-solid fa-xmark"></i></button>
+                        <div class="d-flex h-100">
+                            <div class="img-wrap rounded-icon my-auto">
+                                <i class="fa-solid fa-bell-slash"></i>
+                            </div>
+                            <div class="d-inblock my-auto ps-2">
+                                <div>Ricevi notifiche di nuovi messaggi</div>
+                                <div><a href="#" class="text-small link" @click="requestNotifications">Attiva notifiche
+                                        desktop &gt;</a></div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Searchbar -->
                     <div class="searchbar p-1">
                         <div class="input-field">
-                            <i class="ion-search text-gray-text"></i>
-                            <input type="text" name="" id="" @keyup="realtimeSearch" v-model="searchQuery"  class="form-input-text search-icon" placeholder="Cerca o inizia una nuova chat">
+                            <i class="fa-solid fa-magnifying-glass text-gray-text"></i>
+                            <input type="text" name="" id="" @keyup="realtimeSearch" v-model="searchQuery"
+                                class="form-input-text search-icon" placeholder="Cerca o inizia una nuova chat">
                         </div>
                     </div>
 
@@ -121,8 +136,10 @@
                     <div class="chatlist">
                         <div class="chatlist-wrap">
                             <ul>
-      
-                                <li v-if="searchQuery != ''" v-for="(filters, index) in foundMatch" class="d-flex chat-item"  @click="currentConversation(index)" @click.stop.right="handleDropChat(index)">
+
+                                <li v-if="searchQuery != ''" v-for="(filters, index) in foundMatch"
+                                    class="d-flex chat-item" @click="currentConversation(index)"
+                                    @click.stop.right="handleDropChat(index)">
                                     <!-- User picture -->
                                     <div class="online-dot" :class="filters.online ? 'online':'offline' "></div>
                                     <div class="img-wrap">
@@ -131,38 +148,52 @@
                                     <!-- Nome, accesso e stato -->
                                     <div class="d-inblock ps-3">
                                         <div class="text-bold">{{filters.name}}</div>
-                                        <div class="text-small text-darkgray text-overflow">{{filters.messages[filters.messages.length - 1].message}}</div>
-                                        <div v-if="!filters.onlideletechatne" class="user-lastaccess text-darkgray text-xsmall mt-1">Ultimo accesso {{filters.lastAccess}}</div>
+                                        <div class="text-small text-darkgray text-overflow">
+                                            {{filters.messages[filters.messages.length - 1].message}}</div>
+                                        <div v-if="!filters.onlideletechatne"
+                                            class="user-lastaccess text-darkgray text-xsmall mt-1">Ultimo accesso
+                                            {{filters.lastAccess}}</div>
                                     </div>
-                
-                                </li>  
-                                <li v-else v-for="(person, index) in contacts" class="d-flex chat-item" :class="index == activePerson ? 'active':''" @click="currentConversation(index)" @click.prevent.right="handleDropChat(index)">
-                                        <!-- User picture -->
-                                        <div class="online-dot" :class="person.online ? 'online':'offline' "></div>
-                                        <div class="img-wrap">
-                                            <img :src="person.avatar" alt="" class="rounded-img img-md">
-                                        </div>
-                                        <!-- Nome, accesso e stato -->
-                                        <div class="d-inblock ps-3" id="user-description">
-                                            <div class="text-bold">{{person.name}}</div>
-                                        
-                                            <div v-if="person.isWriting" class="text-small text-overflow">{{person.currentAction}}</div>
-                                            <div v-else-if="person.messages.length > 0" id="last-msg" class="text-small text-overflow">{{person.messages[person.messages.length - 1].message}}</div>
-                                            
-                                            <div v-if="!person.online" id="last-access" class="user-lastaccess text-darkgray text-xsmall mt-1">Ultimo accesso {{person.lastAccess}}</div>
-                                            <button class="chat-btn" @click="handleDropChat(index)"><i class="ion-more"></i></button>
-                                        </div>
 
-                                        <span v-if="person.online" class="user-online text-small text-darkgray">Online</span>
-                                   
-                                        <!-- Menu eliminazione voce -->
-                                        <ul v-show="showChatDropdown && indexChatDropdown == index" class="dropdown-menu right">
-                                            <li @click="deleteChat(person.name)"><i class="me-2 ion-chatboxes"></i> Elimina intera Chat</li>
-                                        </ul>
+                                </li>
+                                <li v-else v-for="(person, index) in contacts" class="d-flex chat-item"
+                                    :class="index == activePerson ? 'active':''" @click="currentConversation(index)"
+                                    @click.prevent.right="handleDropChat(index)">
+                                    <!-- User picture -->
+                                    <div class="online-dot" :class="person.online ? 'online':'offline' "></div>
+                                    <div class="img-wrap">
+                                        <img :src="person.avatar" alt="" class="rounded-img img-md">
+                                    </div>
+                                    <!-- Nome, accesso e stato -->
+                                    <div class="d-inblock ps-3" id="user-description">
+                                        <div class="text-bold">{{person.name}}</div>
 
-                                    </li>      
-                                
-                                
+                                        <div v-if="person.isWriting" class="text-small text-overflow">
+                                            {{person.currentAction}}</div>
+                                        <div v-else-if="person.messages.length > 0" id="last-msg"
+                                            class="text-small text-overflow">{{person.messages[person.messages.length -
+                                            1].message}}</div>
+
+                                        <div v-if="!person.online" id="last-access"
+                                            class="user-lastaccess text-darkgray text-xsmall mt-1">Ultimo accesso
+                                            {{person.lastAccess}}</div>
+                                        <button class="chat-btn" @click="handleDropChat(index)"><i
+                                                class="fa-solid fa-caret-down text-darkgray"></i></button>
+                                    </div>
+
+                                    <span v-if="person.online"
+                                        class="user-online text-small text-darkgray">Online</span>
+
+                                    <!-- Menu eliminazione voce -->
+                                    <ul v-show="showChatDropdown && indexChatDropdown == index"
+                                        class="dropdown-menu right">
+                                        <li @click="deleteChat(person.name)"><i class="me-2 fa-solid fa-trash-can"></i>
+                                            Elimina intera Chat</li>
+                                    </ul>
+
+                                </li>
+
+
                             </ul>
                         </div>
                     </div>
@@ -180,19 +211,23 @@
                             </div>
                             <div class="d-inblock my-auto ps-3">
                                 <div class="text-bold">{{contacts[activePerson].name}}</div>
-                                <div class="text-small text-darkgray">Ultimo accesso {{contacts[activePerson].lastAccess}}</div>
+                                <div class="text-small text-darkgray">Ultimo accesso
+                                    {{contacts[activePerson].lastAccess}}</div>
                             </div>
                         </div>
                         <div class="col-7 text-right">
 
-                                <div class="d-inblock relative">
-                                    <button class="btn btn-dark" @click="handleDrop2()"><i class="ion-ios-gear-outline"></i></button>
-                                    <ul v-if="showDrop2" class="dropdown-menu right">
-                                        <li @click="changeFontSize(true)"><i class="ion-android-add-circle"></i> Testo</li>
-                                        <li @click="changeFontSize(false)"><i class="ion-android-remove-circle"></i> Testo</li>
-                                        <li @click="toggleDark()"><i class="ion-paintbucket"></i> Tema Scuro/Chiaro</li>
-                                    </ul>
-                                </div>
+                            <div class="d-inblock relative">
+                                <button class="btn btn-dark" @click="handleDrop2()"><i
+                                        class="fa-solid fa-gear text-darkgray"></i></button>
+                                <ul v-if="showDrop2" class="dropdown-menu right">
+                                    <li @click="changeFontSize(true)"><i class="fa-solid fa-circle-plus"></i> Testo</li>
+                                    <li @click="changeFontSize(false)"><i class="fa-solid fa-circle-minus"></i> Testo
+                                    </li>
+                                    <li @click="toggleDark()"><i class="fa-solid fa-circle-half-stroke"></i> Tema
+                                        Scuro/Chiaro</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
@@ -200,64 +235,77 @@
                     <div v-if="welcomePage" class="welcome-page d-flex">
                         <img src="./img/wapp.webp" alt="">
                         <h1>Benvenuto in BoolzApp</h1>
-                        <p class="text-darkgray text-center">Semplicità, affidabilità e riservatezza in messaggi e chiamate gratuiti*, disponibili in tutto il mondo.</p>
-                        <span class="disclamer text-center text-darkgray text-xsmall">*Potrebbero essere applicati costi per il traffico dati. Rivolgiti al tuo gestore per ulteriori dettagli.</span>
+                        <p class="text-darkgray text-center">Semplicità, affidabilità e riservatezza in messaggi e
+                            chiamate gratuiti*, disponibili in tutto il mondo.</p>
+                        <span class="disclamer text-center text-darkgray text-xsmall">*Potrebbero essere applicati costi
+                            per il traffico dati. Rivolgiti al tuo gestore per ulteriori dettagli.</span>
                     </div>
                     <!-- Pagina messaggi -->
-                    <div v-else class="messages p-5" id="auto-scroll" @click.prevent.right="dropMessage($event)" @click="showMessageDropdown = false">
+                    <div v-else class="messages p-5" id="auto-scroll" @click.prevent.right="dropMessage($event)"
+                        @click="showMessageDropdown = false">
                         <!-- Menu eliminazione voce -->
                         <ul v-show="showMessageDropdown" class="dropdown-menu right" :style="dropPosition">
-                            <li @click="deleteMsgOnly(contacts[activePerson].name)"><i class="me-2 ion-chatbox-working"></i>Elimina Messaggi</li>
-                            <li @click="deleteChat(contacts[activePerson].name)"><i class="me-2 ion-chatboxes"></i>Elimina intera chat</li>
+                            <li @click="deleteMsgOnly(contacts[activePerson].name)"><i
+                                    class="me-2 fa-solid fa-trash"></i>Elimina Messaggi</li>
+                            <li @click="deleteChat(contacts[activePerson].name)"><i
+                                    class="me-2 fa-solid fa-trash"></i>Elimina intera chat</li>
                         </ul>
-                       <ul>
+                        <ul>
                             <li v-for="(msg, index) in activePersonMsg" class="msg py-2" :class="msg.status">
                                 <div class="content" :class="fontSizes[fontIndex]">
                                     {{msg.message}}
-                                        <button class="btn-drop" @click="handleDropMsg(index)"><i class="ion-chevron-down text-darkgray"></i></button>
-                                        <ul v-show="showDropdown && indexShowDropdown == index" class="dropdown-menu right">
-                                            <li @click="removeMsg(index)"><i class="ion-android-delete"></i> Elimina</li>
-                                        </ul>
-                                    <span class="timestamp text-small text-darkgray">{{msg.date}} <i class="msg-icon ion-checkmark-round" :class="msg.read"></i></span>
-   
+                                    <button class="btn-drop" @click="handleDropMsg(index)"><i
+                                            class="fa-solid fa-chevron-down text-darkgray"></i></button>
+                                    <ul v-show="showDropdown && indexShowDropdown == index" class="dropdown-menu right">
+                                        <li @click="removeMsg(index)"><i class="fa-solid fa-trash-can"></i> Elimina</li>
+                                    </ul>
+                                    <span class="timestamp text-small text-darkgray">{{msg.date}} <i
+                                            class="msg-icon fa-solid fa-check" :class="msg.read"></i></span>
+
                                 </div>
                             </li>
-                       </ul>
+                        </ul>
 
                     </div>
 
                     <!-- Barra inferiore -->
                     <div class="bottom-bar d-flex justify-between p-3">
                         <div class="col-1">
-                            <button class="btn my-auto"><i class="ion-paper-airplane" @click="sendNewMsg"></i></button>
+                            <button class="btn my-auto"><i class="fa-regular fa-paper-plane"
+                                    @click="sendNewMsg"></i></button>
                         </div>
                         <div class="col-10">
                             <div class="input-field h-100">
-                                <button class="smile" @click="openEmoji()"><i class="ion-happy-outline"></i></button>
-                                <input type="text" name="txtInputMsg" id="txtInputMsg" class="form-input-text h-100 ps-0" v-model="sentMsg" @keyup.enter="sendNewMsg"  placeholder="Scrivi un messaggio">
+                                <button class="smile" @click="openEmoji()"><i
+                                        class="fa-regular fa-face-smile"></i></button>
+                                <input type="text" name="txtInputMsg" id="txtInputMsg"
+                                    class="form-input-text h-100 ps-0" v-model="sentMsg" @keyup.enter="sendNewMsg"
+                                    placeholder="Scrivi un messaggio">
                                 <ul v-if="showEmoji" class="dropdown-menu right dropup icons-drop">
-                                    <li v-for="(emoji, index) in emojiList" class="emoji" v-html="emoji" @click="addEmoji(index)"></li>
+                                    <li v-for="(emoji, index) in emojiList" class="emoji" v-html="emoji"
+                                        @click="addEmoji(index)"></li>
                                 </ul>
                             </div>
-                           
+
                         </div>
                         <div class="col-1 text-right">
-                            <button class="btn btn-red my-auto" @click="voiceRecord"><i class="ion-android-microphone"></i></button>
+                            <button class="btn btn-red my-auto" @click="voiceRecord"><i
+                                    class="fa-solid fa-microphone"></i></button>
                         </div>
                     </div>
 
-                    
+
                     <div v-if="contacts.length > 0">
                         <!-- Badge animato Scrittura -->
                         <div v-show="contacts[activePerson].isWriting" class="is-writing">
-                            {{contacts[activePerson].name}} sta scrivendo 
+                            {{contacts[activePerson].name}} sta scrivendo
                             <span class="anim-dot dot-1"></span>
                             <span class="anim-dot dot-2"></span>
                             <span class="anim-dot dot-3"></span>
                         </div>
-                        <!-- Badge animato Dettatura Vocale -->    
+                        <!-- Badge animato Dettatura Vocale -->
                         <div v-show="isSpeaking" class="voice-recorder-badge text-center">
-                            <div><i class="ion-android-microphone"></i></div>
+                            <div><i class="fa-solid fa-microphone"></i></div>
                             <div class="py-2 text-small">{{ badgeMsg }}</div>
                             <div>
                                 <span class="anim-dot dot-big dot-1"></span>
@@ -268,7 +316,7 @@
                     </div>
 
                 </main>
-           </div>
+            </div>
         </div>
     </div>
 
@@ -276,4 +324,5 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="./js/main.js"></script>
 </body>
+
 </html>
