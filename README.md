@@ -2,7 +2,7 @@
 
 <img src="https://github.com/mattiamoneta/vue-boolzapp/blob/main/thumbnail.gif" alt="BoolzApp"/>
 
-## About BoolzApp <img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-svg/it.svg"/>
+## About BoolzApp <img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-svg/it.svg" height="10px"/>
 
 BoolzApp è un'applicazione web che va a replicare l'interfaccia grafica del client web del noto WhatsApp.
 
@@ -24,7 +24,7 @@ BoolzApp è un'applicazione web che va a replicare l'interfaccia grafica del cli
 
 
 
-## About BoolzApp <img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-svg/gb.svg"/>
+## About BoolzApp <img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-svg/gb.svg" height="10px"/>
 
 BoolzApp is a web application that tries to replicate the GUI of the web client of the well-known WhatsApp.
 
