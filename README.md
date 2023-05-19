@@ -25,8 +25,12 @@ Syntax: <a href="website"><img src="https://img.shields.io/badge/-LABEL-COLORHEX
   <a href="#"><img src="https://img.shields.io/badge/-CSS3-1572B6?logo=css3&logoColor=white" alt="CSS3"></a>
 </p>
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+BoolzApp è un progetto Vue realizzato per il corso [Boolean](https://boolean.careers/). Il sito replica l'inrefaccia web di WhatsApp e integra svariate funzioni demo, tra cui
+un sistema di risposta automatico ai messaggi dell'utente, l'uso delle Web Speech API per la dettatura vocale (solo su Chrome) e la possibilità di filtrare/eliminare le singole conversazioni.
 
-## Recommended IDE Setup
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Tecnologie
+
+- [Vue 3.2](https://vuejs.org/)
+- HTML/CSS
+- SCSS
