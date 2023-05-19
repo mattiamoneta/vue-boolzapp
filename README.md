@@ -1,8 +1,12 @@
 # <img src="https://github.com/mattiamoneta/vue-boolzapp/blob/main/img/wapp.webp" height="50px" /> BoolzApp
 
-<div style="border-radius: 10px; overflow: hidden;">
+<p align="center">
+    <img src="https://github.com/mattiamoneta/vue-boolzapp/blob/main/img/boolzapp-logo-extended.png" alt="BoolzApp" height="50px"/>      
+</p>
+
+<p align="center">
   <img src="https://github.com/mattiamoneta/vue-boolzapp/blob/main/thumbnail.gif" alt="BoolzApp"/> 
-</div>
+</p>
 
 ## About BoolzApp <img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-svg/it.svg" height="10px"/>
 
