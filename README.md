@@ -1,5 +1,3 @@
-# <img src="https://github.com/mattiamoneta/vue-boolzapp/blob/main/img/wapp.webp" height="50px" /> BoolzApp
-
 <p align="center">
     <img src="https://github.com/mattiamoneta/vue-boolzapp/blob/main/img/boolzapp-logo-extended.png" alt="BoolzApp" height="50px"/>      
 </p>
