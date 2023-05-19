@@ -25,7 +25,7 @@ Syntax: <a href="website"><img src="https://img.shields.io/badge/-LABEL-COLORHEX
   <a href="#"><img src="https://img.shields.io/badge/-CSS3-1572B6?logo=css3&logoColor=white" alt="CSS3"></a>
 </p>
 
-BoolzApp è un progetto Vue realizzato per il corso [Boolean](https://boolean.careers/). Il sito replica l'inrefaccia web di WhatsApp e integra svariate funzioni demo, tra cui
+BoolzApp è un progetto Vue realizzato per il corso [Boolean](https://boolean.careers/). Il sito replica l'interfaccia web di WhatsApp e integra svariate funzioni demo, tra cui
 un sistema di risposta automatico ai messaggi dell'utente, l'uso delle Web Speech API per la dettatura vocale (solo su Chrome) e la possibilità di filtrare/eliminare le singole conversazioni.
 
 
