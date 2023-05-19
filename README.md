@@ -1,4 +1,4 @@
-# BoolzApp
+# <img src="https://github.com/mattiamoneta/vue-boolzapp/blob/main/img/wapp.webp" height="50px" /> BoolzApp
 
 <img src="https://github.com/mattiamoneta/vue-boolzapp/blob/main/thumbnail.gif" alt="BoolzApp"/>
 
