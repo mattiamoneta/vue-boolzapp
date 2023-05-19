@@ -1,56 +1,32 @@
-<p align="center">
-    <img src="https://github.com/mattiamoneta/vue-boolzapp/blob/main/img/boolzapp-logo-extended.png" alt="BoolzApp" height="50px"/>      
-</p>
+<!---
+LOGO
+-->
 
 <p align="center">
-  <img src="https://github.com/mattiamoneta/vue-boolzapp/blob/main/thumbnail.gif" alt="BoolzApp"/> 
+  <img src="https://github.com/mattiamoneta/vue-boolzapp/blob/main/img/boolzapp-logo-extended.png" alt="BoolzApp" height="50px"/>
 </p>
 
-## About BoolzApp <img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-svg/it.svg" height="10px"/>
+<!---
+THUMBNAIL GIF
+-->
 
-BoolzApp è un'applicazione web che va a replicare l'interfaccia grafica del client web del noto WhatsApp.
+<p align="center">
+  <img src="https://github.com/mattiamoneta/vue-boolzapp/blob/main/thumbnail.gif" alt="BoolzApp"/>
+</p>
 
-## Tech Features
+<!---
+SHIELDS.IO
 
-- HTML5/CSS
-- VueJS
+Syntax: <a href="website"><img src="https://img.shields.io/badge/-LABEL-COLORHEX?logo=SIMPLELOGONAME&logoColor=white" alt="LABELALT"></a>
+-->
+<p align="center">
+  <a href="https://vuejs.org/"><img src="https://img.shields.io/badge/-VueJS3-4FC08D?logo=vue.js&logoColor=white" alt="VueJS3"></a>
+  <a href="#"><img src="https://img.shields.io/badge/-HTML5-E34F26?logo=html5&logoColor=white" alt="HTML5"></a>
+  <a href="#"><img src="https://img.shields.io/badge/-CSS3-1572B6?logo=css3&logoColor=white" alt="CSS3"></a>
+</p>
 
-## Features
+This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-- Creazione/rimozione delle chat
-- Riposta automatica ai messaggi
-- Modifica dell'immagine e del nome profilo
-- Modifica dimensione caratteri
-- Switch modalità chiara e scura
-- Dettatura vocale basata su Google WebSpeech API (Chrome Only)
-- Tastiera Emoji
-- Funzione di ricerca delle chat
+## Recommended IDE Setup
 
-
-
-## About BoolzApp <img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-svg/gb.svg" height="10px"/>
-
-BoolzApp is a web application that tries to replicate the GUI of the web client of the well-known WhatsApp.
-
-## Tech Features
-
-- HTML5/CSS
-- VueJS
-
-## Features
-
-- Creating/removing chats
-- Automatic reposting to messages
-- Editing profile picture and name
-- Change font size
-- Switch between light and dark modes
-- Voice dictation based on Google WebSpeech API (Chrome Only)
-- Emoji keyboard
-- Chat search function
-
-
-
-
-
-
-
+- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
